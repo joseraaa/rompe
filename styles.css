@@ -1,0 +1,465 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Pantallas */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Pantalla de Bienvenida */
+.welcome-container {
+    max-width: 800px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.header-decoration {
+    width: 100px;
+    height: 8px;
+    background: linear-gradient(90deg, #d4af37, #ffd700, #d4af37);
+    margin: 0 auto 30px;
+    border-radius: 4px;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.welcome-subtitle {
+    font-size: 1.3rem;
+    color: #444;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.instructions-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    border-left: 6px solid #d4af37;
+}
+
+.instructions-card h2 {
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.instructions-list {
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.instructions-list li {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* Botones */
+.main-button {
+    background: linear-gradient(135deg, #d4af37, #ffd700);
+    color: #1e3c72;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    min-width: 200px;
+    min-height: 60px;
+}
+
+.main-button:hover, .main-button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+}
+
+.secondary-button {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e3c72;
+    border: 2px solid #1e3c72;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 50px;
+    margin: 10px;
+}
+
+.secondary-button:hover, .secondary-button:active {
+    background: #1e3c72;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Selección de Personajes */
+.selection-container {
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #1e3c72;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.character-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid transparent;
+}
+
+.character-card:hover, .character-card:active {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: #d4af37;
+}
+
+.character-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    background-size: cover;
+    background-position: center;
+    border: 4px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.character-card:hover .character-image {
+    border-color: #d4af37;
+}
+
+/* Imágenes de personajes usando gradientes representativos */
+.character-image.lucas {
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E  50%, #CD853F 100%);
+}
+
+.character-image.bonilla {
+    background: linear-gradient(135deg, #2F4F4F 0%, #708090 50%, #B0C4DE 100%);
+}
+
+.character-image.mendez {
+    background: linear-gradient(135deg, #800000 0%, #DC143C 50%, #FFB6C1 100%);
+}
+
+.character-image.zaragoza {
+    background: linear-gradient(135deg, #006400 0%, #228B22 50%, #90EE90 100%);
+}
+
+.character-card h3 {
+    font-size: 1.3rem;
+    color: #1e3c72;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.character-preview {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Pantalla del Rompecabezas */
+.puzzle-container {
+    max-width: 1200px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.puzzle-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.puzzle-progress {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.puzzle-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+    min-height: 400px;
+}
+
+.puzzle-board {
+    background: #f8f9fa;
+    border: 3px dashed #ccc;
+    border-radius: 15px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    padding: 10px;
+    min-height: 300px;
+}
+
+.puzzle-slot {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.puzzle-slot.highlight {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.puzzle-slot.filled {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.pieces-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-content: flex-start;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.puzzle-piece {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.3s ease;
+    border: 2px solid #ddd;
+    background-size: 320px 180px;
+    position: relative;
+    touch-action: none;
+}
+
+.puzzle-piece:active {
+    cursor: grabbing;
+    transform: scale(1.1) rotate(3deg);
+    z-index: 1000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.puzzle-piece.placed {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.puzzle-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Pantalla de Biografía */
+.biography-container {
+    max-width: 900px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.completed-puzzle-display {
+    margin-bottom: 30px;
+}
+
+.completed-character-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    margin: 0 auto;
+    background-size: cover;
+    background-position: center;
+    border: 4px solid #d4af37;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.biography-title {
+    font-size: 2.2rem;
+    color: #1e3c72;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.biography-text {
+    font-size: 1.2rem;
+    color: #444;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    text-align: left;
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    border-left: 6px solid #d4af37;
+}
+
+.biography-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .characters-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .character-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .puzzle-area {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .puzzle-piece {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .biography-text {
+        font-size: 1.1rem;
+        padding: 20px;
+    }
+    
+    .main-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-container,
+    .selection-container,
+    .puzzle-container,
+    .biography-container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .characters-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .puzzle-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .biography-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompecabezas Histórico de Puebla</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Pantalla de Bienvenida -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-container">
+                <div class="header-decoration"></div>
+                <h1 class="welcome-title">¡Bienvenido al Rompecabezas Histórico Interactivo!</h1>
+                <p class="welcome-subtitle">Descubre y arma los rostros de los héroes que marcaron la historia de la Sierra Norte de Puebla y de la Batalla del 5 de Mayo.</p>
+                
+                <div class="instructions-card">
+                    <h2>Instrucciones:</h2>
+                    <ol class="instructions-list">
+                        <li>Toca "Comenzar"</li>
+                        <li>Elige uno de los personajes históricos</li>
+                        <li>Arma el rompecabezas tocando y arrastrando las piezas con el dedo</li>
+                        <li>Al completar el rompecabezas, aparecerá una breve biografía del personaje</li>
+                    </ol>
+                </div>
+                
+                <button id="start-btn" class="main-button">Comenzar</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Selección de Personajes -->
+        <div id="character-selection" class="screen">
+            <div class="selection-container">
+                <h2 class="section-title">Elige un Personaje Histórico</h2>
+                
+                <div class="characters-grid">
+                    <div class="character-card" data-character="lucas">
+                        <div class="character-image lucas"></div>
+                        <h3>Juan Francisco Lucas</h3>
+                        <p class="character-preview">Líder indígena totonaco</p>
+                    </div>
+                    
+                    <div class="character-card" data-character="bonilla">
+                        <div class="character-image bonilla"></div>
+                        <h3>Juan Crisóstomo Bonilla</h3>
+                        <p class="character-preview">Militar liberal poblano</p>
+                    </div>
+                    
+                    <div class="character-card" data-character="mendez">
+                        <div class="character-image mendez"></div>
+                        <h3>Juan Nepomuceno Méndez</h3>
+                        <p class="character-preview">Combatiente durante la Intervención Francesa</p>
+                    </div>
+                    
+                    <div class="character-card" data-character="zaragoza">
+                        <div class="character-image zaragoza"></div>
+                        <h3>Ignacio Zaragoza</h3>
+                        <p class="character-preview">Héroe de la Batalla del 5 de Mayo</p>
+                    </div>
+                </div>
+                
+                <button id="back-to-welcome" class="secondary-button">Volver al Inicio</button>
+            </div>
+        </div>
+
+        <!-- Pantalla del Rompecabezas -->
+        <div id="puzzle-screen" class="screen">
+            <div class="puzzle-container">
+                <div class="puzzle-header">
+                    <h2 id="current-character-name" class="section-title"></h2>
+                    <div class="puzzle-progress">
+                        <span id="pieces-placed">0</span>/12 piezas colocadas
+                    </div>
+                </div>
+                
+                <div class="puzzle-area">
+                    <div id="puzzle-board" class="puzzle-board"></div>
+                    <div id="pieces-container" class="pieces-container"></div>
+                </div>
+                
+                <div class="puzzle-controls">
+                    <button id="shuffle-pieces" class="secondary-button">Mezclar Piezas</button>
+                    <button id="back-to-selection" class="secondary-button">Cambiar Personaje</button>
+                    <button id="show-biography" class="main-button hidden">Ver Biografía</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Biografía -->
+        <div id="biography-screen" class="screen">
+            <div class="biography-container">
+                <div class="completed-puzzle-display">
+                    <div id="completed-image" class="completed-character-image"></div>
+                </div>
+                
+                <div class="biography-content">
+                    <h2 id="biography-name" class="biography-title"></h2>
+                    <div id="biography-text" class="biography-text"></div>
+                </div>
+                
+                <div class="biography-controls">
+                    <button id="play-again" class="main-button">Jugar de Nuevo</button>
+                    <button id="choose-another" class="secondary-button">Elegir Otro Personaje</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
