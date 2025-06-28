@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Personajes - Rompecabezas Histórico</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Pantalla de Selección de Personajes -->
+        <div class="selection-container">
+            <div class="page-header">
+                <h2 class="section-title">Galería de Héroes Poblanos</h2>
+                <div class="title-ornament"></div>
+            </div>
+            
+            <div class="characters-gallery">
+                <div class="character-frame" data-character="bonilla">
+                    <div class="portrait-container">
+                        <img src="imagenes/Bonilla.jpg" alt="Juan Crisóstomo Bonilla" class="character-portrait">
+                        <div class="portrait-overlay"></div>
+                    </div>
+                    <div class="nameplate">
+                        <h3>Juan Crisóstomo Bonilla</h3>
+                        <p class="character-title">Militar Liberal Poblano</p>
+                    </div>
+                </div>
+                
+                <div class="character-frame" data-character="lucas">
+                    <div class="portrait-container">
+                        <img src="imagenes/Francisco.jpg" alt="Juan Francisco Lucas" class="character-portrait">
+                        <div class="portrait-overlay"></div>
+                    </div>
+                    <div class="nameplate">
+                        <h3>Juan Francisco Lucas</h3>
+                        <p class="character-title">Líder Indígena Totonaco</p>
+                    </div>
+                </div>
+                
+                <div class="character-frame" data-character="mendez">
+                    <div class="portrait-container">
+                        <img src="imagenes/Nepomuceno.jpg" alt="Juan Nepomuceno Méndez" class="character-portrait">
+                        <div class="portrait-overlay"></div>
+                    </div>
+                    <div class="nameplate">
+                        <h3>Juan Nepomuceno Méndez</h3>
+                        <p class="character-title">Presidente Interino de México</p>
+                    </div>
+                </div>
+                
+                <div class="character-frame" data-character="zaragoza">
+                    <div class="portrait-container">
+                        <img src="imagenes/ignacio.jpg" alt="Ignacio Zaragoza" class="character-portrait">
+                        <div class="portrait-overlay"></div>
+                    </div>
+                    <div class="nameplate">
+                        <h3>Ignacio Zaragoza</h3>
+                        <p class="character-title">Héroe del 5 de Mayo</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-controls">
+                <button onclick="window.location.href='index.html'" class="vintage-button secondary">Volver al Inicio</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

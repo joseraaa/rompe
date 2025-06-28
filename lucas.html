@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Francisco Lucas - Rompecabezas Histórico</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Pantalla del Rompecabezas -->
+        <div class="puzzle-container">
+            <div class="puzzle-header">
+                <div class="character-info-panel">
+                    <h2 class="character-name">Juan Francisco Lucas</h2>
+                    <div class="progress-indicator">
+                        <span class="progress-label">Progreso:</span>
+                        <span id="pieces-placed" class="progress-number">0</span>
+                        <span class="progress-total">/12 piezas</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="puzzle-workspace">
+                <div class="puzzle-frame">
+                    <div id="puzzle-board" class="puzzle-board"></div>
+                </div>
+                <div class="pieces-tray">
+                    <div class="tray-label">Piezas del Rompecabezas</div>
+                    <div id="pieces-container" class="pieces-container"></div>
+                </div>
+            </div>
+            
+            <div class="puzzle-controls">
+                <button id="show-biography" class="vintage-button primary hidden">Ver Biografía</button>
+                <button onclick="window.location.href='seleccion-personaje.html'" class="vintage-button secondary">Cambiar Personaje</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Biografía -->
+        <div id="biography-screen" class="biography-container hidden">
+            <div class="biography-frame">
+                <div class="completed-portrait-section">
+                    <div class="portrait-frame-large">
+                        <img src="imagenes/Francisco.jpg" alt="Juan Francisco Lucas" class="completed-portrait">
+                    </div>
+                </div>
+                
+                <div class="biography-content">
+                    <div class="biography-header">
+                        <h2 class="biography-title">Juan Francisco Lucas</h2>
+                        <div class="title-flourish"></div>
+                    </div>
+                    
+                    <div class="biography-scroll">
+                        <div class="biography-text">
+                            Líder indígena totonaco nacido en 1834 en la Sierra Norte de Puebla. Defendió a su pueblo y a México durante la Intervención Francesa, organizando fuerzas guerrilleras que hostigaron al ejército invasor. Su conocimiento del terreno serrano fue clave para la resistencia. Murió en 1917, siendo recordado como un héroe que luchó por la libertad y la justicia social de los pueblos originarios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="biography-controls">
+                <button onclick="window.location.href='seleccion-personaje.html'" class="vintage-button primary">Seleccionar Otro Personaje</button>
+                <button onclick="window.location.href='index.html'" class="vintage-button secondary">Volver al Inicio</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const characterData = {
+            name: 'Juan Francisco Lucas',
+            image: 'imagenes/Francisco.jpg'
+        };
+    </script>
+    <script src="puzzle.js"></script>
+</body>
+</html>

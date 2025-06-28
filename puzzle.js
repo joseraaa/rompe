@@ -1,65 +1,34 @@
-class HistoricalPuzzleApp {
-    constructor() {
-        this.currentCharacter = null;
+// Script del rompecabezas para cada personaje
+class PuzzleGame {
+    constructor(characterData) {
+        this.characterData = characterData;
         this.puzzlePieces = [];
         this.completedPieces = 0;
         this.isDragging = false;
         this.dragElement = null;
         this.touchOffset = { x: 0, y: 0 };
         
-        this.characters = {
-            lucas: {
-                name: 'Juan Francisco Lucas',
-                biography: 'Líder indígena totonaco nacido en 1834 en la Sierra Norte de Puebla. Defendió a su pueblo y a México durante la Intervención Francesa, organizando fuerzas guerrilleras que hostigaron al ejército invasor. Su conocimiento del terreno serrano fue clave para la resistencia. Murió en 1917, siendo recordado como un héroe que luchó por la libertad y la justicia social de los pueblos originarios.',
-                image: 'imagenes/Francisco.jpg'
-            },
-            bonilla: {
-                name: 'Juan Crisóstomo Bonilla',
-                biography: 'Militar liberal poblano nacido en 1835. Participó activamente en la defensa de Puebla contra las fuerzas francesas durante la Intervención. Fue gobernador de Puebla y destacó como reformador educativo, impulsando la educación pública y laica. Su visión progresista ayudó a modernizar el estado. Murió en 1884, dejando un legado de servicio público y compromiso con la educación.',
-                image: 'imagenes/Bonilla.jpg'
-            },
-            mendez: {
-                name: 'Juan Nepomuceno Méndez',
-                biography: 'Militar y político nacido en 1820 en Tetela de Ocampo, Puebla. Combatiente clave durante la Intervención Francesa, defendió la soberanía nacional desde la Sierra Norte. Fue presidente interino de México en 1876. Su liderazgo en momentos cruciales de la historia nacional lo convirtió en una figura respetada. Murió en 1894, recordado por su integridad y patriotismo.',
-                image: 'imagenes/Nepomuceno.jpg'
-            },
-            zaragoza: {
-                name: 'Ignacio Zaragoza',
-                biography: 'General mexicano nacido en 1829 en Bahía del Espíritu Santo, Texas (entonces territorio mexicano). Héroe nacional que derrotó al ejército francés el 5 de mayo de 1862 en la Batalla de Puebla, demostrando que el ejército francés no era invencible. Su victoria elevó la moral del pueblo mexicano durante la Intervención. Murió en 1862 a los 33 años, pero su legado perdura como símbolo de resistencia y valentía.',
-                image: 'imagenes/ignacio.jpg'
-            }
-        };
-        
         this.init();
     }
     
     init() {
         this.bindEvents();
-        this.showScreen('welcome-screen');
+        this.createPuzzle();
     }
     
     bindEvents() {
-        // Botones de navegación
-        document.getElementById('start-btn').addEventListener('click', () => {
-            this.showScreen('character-selection');
-        });
-        
-        document.getElementById('show-biography').addEventListener('click', () => {
-            this.showBiography();
-        });
-        
-        // Nuevo botón para volver al inicio desde la biografía
-        document.getElementById('return-to-start').addEventListener('click', () => {
-            this.showScreen('welcome-screen');
-        });
-        
-        // Selección de personajes
-        document.querySelectorAll('.character-frame').forEach(frame => {
-            frame.addEventListener('click', () => {
-                const character = frame.dataset.character;
-                this.startPuzzle(character);
+        // Botón para mostrar biografía
+        const showBiographyBtn = document.getElementById('show-biography');
+        if (showBiographyBtn) {
+            showBiographyBtn.addEventListener('click', () => {
+                this.showBiography();
             });
-        });
+            
+            showBiographyBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.showBiography();
+            });
+        }
         
         // Eventos táctiles globales
         document.addEventListener('touchmove', (e) => {
@@ -74,30 +43,26 @@ class HistoricalPuzzleApp {
                 this.handleTouchEnd(e);
             }
         });
-    }
-    
-    showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(screen => {
-            screen.classList.remove('active');
+        
+        // Eventos de mouse globales
+        document.addEventListener('mousemove', (e) => {
+            if (this.isDragging) {
+                this.handleMouseMove(e);
+            }
         });
-        document.getElementById(screenId).classList.add('active');
-    }
-    
-    startPuzzle(characterKey) {
-        this.currentCharacter = characterKey;
-        const character = this.characters[characterKey];
         
-        document.getElementById('current-character-name').textContent = character.name;
-        document.getElementById('pieces-placed').textContent = '0';
-        document.getElementById('show-biography').classList.add('hidden');
-        
-        this.createPuzzle();
-        this.showScreen('puzzle-screen');
+        document.addEventListener('mouseup', (e) => {
+            if (this.isDragging) {
+                this.handleMouseEnd(e);
+            }
+        });
     }
     
     createPuzzle() {
         const board = document.getElementById('puzzle-board');
         const container = document.getElementById('pieces-container');
+        
+        if (!board || !container) return;
         
         // Limpiar contenedores
         board.innerHTML = '';
@@ -156,8 +121,7 @@ class HistoricalPuzzleApp {
         const backgroundX = -(col * pieceWidth);
         const backgroundY = -(row * pieceHeight);
         
-        const character = this.characters[this.currentCharacter];
-        piece.style.backgroundImage = `url(${character.image})`;
+        piece.style.backgroundImage = `url(${this.characterData.image})`;
         piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
         piece.style.backgroundSize = `${totalWidth}px ${totalHeight}px`;
         piece.style.backgroundRepeat = 'no-repeat';
@@ -167,9 +131,15 @@ class HistoricalPuzzleApp {
             this.handleTouchStart(e, piece);
         });
         
+        // Eventos de mouse
+        piece.addEventListener('mousedown', (e) => {
+            this.handleMouseStart(e, piece);
+        });
+        
         return piece;
     }
     
+    // Manejo de eventos táctiles
     handleTouchStart(e, piece) {
         e.preventDefault();
         
@@ -184,10 +154,7 @@ class HistoricalPuzzleApp {
         this.touchOffset.x = touch.clientX - rect.left;
         this.touchOffset.y = touch.clientY - rect.top;
         
-        piece.style.position = 'fixed';
-        piece.style.zIndex = '1000';
-        piece.style.pointerEvents = 'none';
-        
+        this.prepareDragElement(piece);
         this.updatePiecePosition(touch.clientX, touch.clientY);
     }
     
@@ -202,7 +169,55 @@ class HistoricalPuzzleApp {
         if (!this.isDragging || !this.dragElement) return;
         
         const touch = e.changedTouches[0];
-        const slot = this.findNearestSlot(touch.clientX, touch.clientY);
+        this.finalizeDrop(touch.clientX, touch.clientY);
+    }
+    
+    // Manejo de eventos de mouse
+    handleMouseStart(e, piece) {
+        e.preventDefault();
+        
+        if (piece.classList.contains('placed')) return;
+        
+        this.isDragging = true;
+        this.dragElement = piece;
+        
+        const rect = piece.getBoundingClientRect();
+        
+        this.touchOffset.x = e.clientX - rect.left;
+        this.touchOffset.y = e.clientY - rect.top;
+        
+        this.prepareDragElement(piece);
+        this.updatePiecePosition(e.clientX, e.clientY);
+    }
+    
+    handleMouseMove(e) {
+        if (!this.isDragging || !this.dragElement) return;
+        
+        this.updatePiecePosition(e.clientX, e.clientY);
+    }
+    
+    handleMouseEnd(e) {
+        if (!this.isDragging || !this.dragElement) return;
+        
+        this.finalizeDrop(e.clientX, e.clientY);
+    }
+    
+    prepareDragElement(piece) {
+        piece.style.position = 'fixed';
+        piece.style.zIndex = '1000';
+        piece.style.pointerEvents = 'none';
+        piece.style.transform = 'scale(1.15) rotate(2deg)';
+    }
+    
+    updatePiecePosition(x, y) {
+        if (!this.dragElement) return;
+        
+        this.dragElement.style.left = `${x - this.touchOffset.x}px`;
+        this.dragElement.style.top = `${y - this.touchOffset.y}px`;
+    }
+    
+    finalizeDrop(x, y) {
+        const slot = this.findNearestSlot(x, y);
         
         if (slot && this.canPlacePiece(this.dragElement, slot)) {
             this.placePiece(this.dragElement, slot);
@@ -211,13 +226,6 @@ class HistoricalPuzzleApp {
         }
         
         this.resetDragState();
-    }
-    
-    updatePiecePosition(x, y) {
-        if (!this.dragElement) return;
-        
-        this.dragElement.style.left = `${x - this.touchOffset.x}px`;
-        this.dragElement.style.top = `${y - this.touchOffset.y}px`;
     }
     
     findNearestSlot(x, y) {
@@ -258,6 +266,7 @@ class HistoricalPuzzleApp {
         piece.style.pointerEvents = 'none';
         piece.style.borderRadius = '0';
         piece.style.border = 'none';
+        piece.style.transform = 'scale(1) rotate(0deg)';
         
         // Mantener el background correcto para la imagen completa
         piece.style.backgroundSize = '320px 180px';
@@ -267,10 +276,13 @@ class HistoricalPuzzleApp {
         slot.appendChild(piece);
         
         this.completedPieces++;
-        document.getElementById('pieces-placed').textContent = this.completedPieces;
+        const piecesPlacedElement = document.getElementById('pieces-placed');
+        if (piecesPlacedElement) {
+            piecesPlacedElement.textContent = this.completedPieces;
+        }
         
-        // Efecto visual de éxito con estilo vintage (solo al completar)
-        slot.style.animation = 'vintageGlow 0.8s ease';
+        // Efecto visual de éxito con estilo vintage
+        slot.style.animation = 'vintageGlowPiece 0.8s ease';
         setTimeout(() => {
             slot.style.animation = '';
         }, 800);
@@ -286,9 +298,12 @@ class HistoricalPuzzleApp {
         piece.style.top = '';
         piece.style.zIndex = '';
         piece.style.pointerEvents = '';
+        piece.style.transform = 'scale(1) rotate(0deg)';
         
         const container = document.getElementById('pieces-container');
-        container.appendChild(piece);
+        if (container) {
+            container.appendChild(piece);
+        }
     }
     
     resetDragState() {
@@ -306,89 +321,41 @@ class HistoricalPuzzleApp {
     
     onPuzzleComplete() {
         setTimeout(() => {
-            document.getElementById('show-biography').classList.remove('hidden');
+            const showBiographyBtn = document.getElementById('show-biography');
+            if (showBiographyBtn) {
+                showBiographyBtn.classList.remove('hidden');
+            }
             
             // Efecto de celebración vintage
             const board = document.getElementById('puzzle-board');
-            board.style.animation = 'antiqueFade 1.5s ease';
-            
-            setTimeout(() => {
-                board.style.animation = '';
-            }, 1500);
+            if (board) {
+                board.style.animation = 'antiqueFadeBoard 1.5s ease';
+                
+                setTimeout(() => {
+                    board.style.animation = '';
+                }, 1500);
+            }
         }, 500);
     }
     
     showBiography() {
-        const character = this.characters[this.currentCharacter];
+        const puzzleContainer = document.querySelector('.puzzle-container');
+        const biographyScreen = document.getElementById('biography-screen');
         
-        document.getElementById('biography-name').textContent = character.name;
-        document.getElementById('biography-text').textContent = character.biography;
-        
-        const completedPortrait = document.getElementById('completed-portrait');
-        completedPortrait.src = character.image;
-        completedPortrait.alt = character.name;
-        
-        this.showScreen('biography-screen');
+        if (puzzleContainer && biographyScreen) {
+            puzzleContainer.style.display = 'none';
+            biographyScreen.classList.remove('hidden');
+            biographyScreen.style.display = 'block';
+        }
     }
 }
 
-// Añadir animaciones CSS dinámicamente con estilo vintage
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes vintageGlow {
-        0% { 
-            transform: scale(1); 
-            box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
-        }
-        50% { 
-            transform: scale(1.05); 
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
-            background-color: rgba(212, 175, 55, 0.2); 
-        }
-        100% { 
-            transform: scale(1); 
-            box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
-        }
-    }
-    
-    @keyframes antiqueFade {
-        0%, 20%, 53%, 80%, 100% { 
-            transform: translateY(0) scale(1); 
-            filter: sepia(15%);
-        }
-        40%, 43% { 
-            transform: translateY(-8px) scale(1.02); 
-            filter: sepia(5%);
-        }
-        70% { 
-            transform: translateY(-4px) scale(1.01); 
-            filter: sepia(10%);
-        }
-        90% { 
-            transform: translateY(-2px) scale(1.005); 
-            filter: sepia(12%);
-        }
-    }
-    
-    .puzzle-piece {
-        will-change: transform;
-        transition: filter 0.3s ease;
-    }
-    
-    .puzzle-piece:active {
-        transition: none;
-        filter: sepia(5%) contrast(1.3) brightness(1.1);
-    }
-    
-    .character-frame:hover .character-portrait {
-        animation: vintageGlow 2s ease-in-out infinite;
-    }
-`;
-document.head.appendChild(style);
-
-// Inicializar la aplicación cuando se carga la página
+// Inicializar el juego cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
-    new HistoricalPuzzleApp();
+    // Verificar si existe characterData (definido en cada página de personaje)
+    if (typeof characterData !== 'undefined') {
+        new PuzzleGame(characterData);
+    }
 });
 
 // Prevenir zoom en dispositivos móviles
