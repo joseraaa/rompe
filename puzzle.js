@@ -71,7 +71,7 @@ class PuzzleGame {
         this.puzzlePieces = [];
         this.completedPieces = 0;
         
-        // Crear slots del tablero en orden correcto
+        // Crear slots del tablero en orden correcto (0-11)
         for (let i = 0; i < 12; i++) {
             const slot = document.createElement('div');
             slot.className = 'puzzle-slot';
@@ -79,7 +79,7 @@ class PuzzleGame {
             board.appendChild(slot);
         }
         
-        // Crear array de posiciones únicas (0-11) para las piezas
+        // Crear array de posiciones únicas para las piezas
         const piecePositions = [];
         for (let i = 0; i < 12; i++) {
             piecePositions.push(i);
@@ -101,7 +101,7 @@ class PuzzleGame {
         piece.className = 'puzzle-piece';
         piece.dataset.position = position;
         
-        // Dimensiones del tablero: 4 columnas x 3 filas = 12 piezas
+        // Configuración del grid: 4 columnas x 3 filas = 12 piezas
         const cols = 4;
         const rows = 3;
         
@@ -109,18 +109,19 @@ class PuzzleGame {
         const row = Math.floor(position / cols);
         const col = position % cols;
         
-        // Dimensiones de cada pieza en el CSS (80px x 60px)
+        // Dimensiones de cada pieza en el CSS
         const pieceWidth = 80;
         const pieceHeight = 60;
         
-        // Dimensiones totales de la imagen de fondo (320px x 180px)
-        const totalWidth = 320;
-        const totalHeight = 180;
+        // Dimensiones totales de la imagen de fondo
+        const totalWidth = cols * pieceWidth; // 320px
+        const totalHeight = rows * pieceHeight; // 180px
         
         // Calcular la posición exacta del fondo para mostrar la sección correcta
         const backgroundX = -(col * pieceWidth);
         const backgroundY = -(row * pieceHeight);
         
+        // Aplicar la imagen de fondo con el recorte correcto
         piece.style.backgroundImage = `url(${this.characterData.image})`;
         piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
         piece.style.backgroundSize = `${totalWidth}px ${totalHeight}px`;
@@ -256,7 +257,29 @@ class PuzzleGame {
     }
     
     placePiece(piece, slot) {
-        // Resetear estilos de arrastre
+        // Obtener las dimensiones reales del slot
+        const slotRect = slot.getBoundingClientRect();
+        const slotWidth = slotRect.width;
+        const slotHeight = slotRect.height;
+        
+        // Configuración del grid
+        const cols = 4;
+        const rows = 3;
+        
+        // Calcular las dimensiones totales de la imagen para el slot
+        const totalWidth = cols * slotWidth;
+        const totalHeight = rows * slotHeight;
+        
+        // Calcular posición de la pieza en el grid
+        const position = parseInt(piece.dataset.position);
+        const row = Math.floor(position / cols);
+        const col = position % cols;
+        
+        // Calcular la posición del fondo para el slot
+        const backgroundX = -(col * slotWidth);
+        const backgroundY = -(row * slotHeight);
+        
+        // Resetear estilos de arrastre y aplicar estilos de pieza colocada
         piece.style.position = 'absolute';
         piece.style.left = '0';
         piece.style.top = '0';
@@ -268,8 +291,9 @@ class PuzzleGame {
         piece.style.border = 'none';
         piece.style.transform = 'scale(1) rotate(0deg)';
         
-        // Mantener el background correcto para la imagen completa
-        piece.style.backgroundSize = '320px 180px';
+        // Aplicar el fondo correcto para el tamaño del slot
+        piece.style.backgroundSize = `${totalWidth}px ${totalHeight}px`;
+        piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
         
         piece.classList.add('placed');
         slot.classList.add('filled');
@@ -293,12 +317,29 @@ class PuzzleGame {
     }
     
     returnPieceToContainer(piece) {
+        // Restaurar estilos originales de la pieza
         piece.style.position = 'relative';
         piece.style.left = '';
         piece.style.top = '';
+        piece.style.width = '80px';
+        piece.style.height = '60px';
         piece.style.zIndex = '';
         piece.style.pointerEvents = '';
         piece.style.transform = 'scale(1) rotate(0deg)';
+        piece.style.borderRadius = '6px';
+        piece.style.border = '3px solid #654321';
+        
+        // Restaurar el tamaño de fondo original para el contenedor
+        piece.style.backgroundSize = '320px 180px';
+        
+        // Recalcular la posición del fondo para el tamaño original
+        const position = parseInt(piece.dataset.position);
+        const cols = 4;
+        const row = Math.floor(position / cols);
+        const col = position % cols;
+        const backgroundX = -(col * 80);
+        const backgroundY = -(row * 60);
+        piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
         
         const container = document.getElementById('pieces-container');
         if (container) {
