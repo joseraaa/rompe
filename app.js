@@ -48,19 +48,12 @@ class HistoricalPuzzleApp {
             this.showScreen('welcome-screen');
         });
         
-        document.getElementById('back-to-selection').addEventListener('click', () => {
-            this.showScreen('character-selection');
-        });
-        
         document.getElementById('show-biography').addEventListener('click', () => {
             this.showBiography();
         });
         
-        document.getElementById('play-again').addEventListener('click', () => {
-            this.startPuzzle(this.currentCharacter);
-        });
-        
-        document.getElementById('choose-another').addEventListener('click', () => {
+        // Nuevo botón para volver al inicio desde la biografía
+        document.getElementById('return-to-start').addEventListener('click', () => {
             this.showScreen('character-selection');
         });
         
@@ -125,16 +118,17 @@ class HistoricalPuzzleApp {
             board.appendChild(slot);
         }
         
-        // Crear piezas del rompecabezas
-        const pieces = [];
+        // Crear array de posiciones únicas para evitar duplicaciones
+        const uniquePositions = [];
         for (let i = 0; i < 12; i++) {
-            pieces.push(i);
+            uniquePositions.push(i);
         }
         
-        // Mezclar piezas automáticamente
-        this.shuffleArray(pieces);
+        // Mezclar las posiciones automáticamente
+        this.shuffleArray(uniquePositions);
         
-        pieces.forEach((position, index) => {
+        // Crear piezas del rompecabezas con posiciones únicas
+        uniquePositions.forEach((position) => {
             const piece = this.createPuzzlePiece(position);
             container.appendChild(piece);
             this.puzzlePieces.push(piece);
@@ -146,7 +140,7 @@ class HistoricalPuzzleApp {
         piece.className = 'puzzle-piece';
         piece.dataset.position = position;
         
-        // Calcular posición de la imagen de fondo
+        // Calcular posición única de la imagen de fondo
         const row = Math.floor(position / 4);
         const col = position % 4;
         const backgroundX = -col * 80;
@@ -184,7 +178,7 @@ class HistoricalPuzzleApp {
         piece.style.pointerEvents = 'none';
         
         this.updatePiecePosition(touch.clientX, touch.clientY);
-        this.highlightValidSlots(piece);
+        // Eliminado: this.highlightValidSlots(piece); - No más pistas visuales
     }
     
     handleTouchMove(e) {
@@ -192,7 +186,7 @@ class HistoricalPuzzleApp {
         
         const touch = e.touches[0];
         this.updatePiecePosition(touch.clientX, touch.clientY);
-        this.highlightNearbySlots(touch.clientX, touch.clientY);
+        // Eliminado: this.highlightNearbySlots - No más pistas visuales
     }
     
     handleTouchEnd(e) {
@@ -208,7 +202,7 @@ class HistoricalPuzzleApp {
         }
         
         this.resetDragState();
-        this.clearHighlights();
+        // Eliminado: this.clearHighlights(); - No hay highlights que limpiar
     }
     
     updatePiecePosition(x, y) {
@@ -263,7 +257,7 @@ class HistoricalPuzzleApp {
         this.completedPieces++;
         document.getElementById('pieces-placed').textContent = this.completedPieces;
         
-        // Efecto visual de éxito con estilo vintage
+        // Efecto visual de éxito con estilo vintage (solo al completar)
         slot.style.animation = 'vintageGlow 0.8s ease';
         setTimeout(() => {
             slot.style.animation = '';
@@ -289,29 +283,6 @@ class HistoricalPuzzleApp {
         this.isDragging = false;
         this.dragElement = null;
         this.touchOffset = { x: 0, y: 0 };
-    }
-    
-    highlightValidSlots(piece) {
-        const piecePosition = parseInt(piece.dataset.position);
-        const targetSlot = document.querySelector(`.puzzle-slot[data-position="${piecePosition}"]`);
-        
-        if (targetSlot && !targetSlot.classList.contains('filled')) {
-            targetSlot.classList.add('highlight');
-        }
-    }
-    
-    highlightNearbySlots(x, y) {
-        this.clearHighlights();
-        const slot = this.findNearestSlot(x, y);
-        if (slot) {
-            slot.classList.add('highlight');
-        }
-    }
-    
-    clearHighlights() {
-        document.querySelectorAll('.puzzle-slot').forEach(slot => {
-            slot.classList.remove('highlight');
-        });
     }
     
     shuffleArray(array) {

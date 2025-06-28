@@ -530,13 +530,7 @@ body::before {
     transition: all 0.3s ease;
 }
 
-.puzzle-slot.highlight {
-    border-color: #d4af37;
-    background: 
-        linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
+/* ELIMINADO: Estilos de highlight para no dar pistas visuales */
 .puzzle-slot.filled {
     border-color: #28a745;
     background: rgba(40, 167, 69, 0.1);
