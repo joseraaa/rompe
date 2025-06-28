@@ -530,7 +530,6 @@ body::before {
     transition: all 0.3s ease;
 }
 
-/* ELIMINADO: Estilos de highlight para no dar pistas visuales */
 .puzzle-slot.filled {
     border-color: #28a745;
     background: rgba(40, 167, 69, 0.1);

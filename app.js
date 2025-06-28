@@ -44,17 +44,13 @@ class HistoricalPuzzleApp {
             this.showScreen('character-selection');
         });
         
-        document.getElementById('back-to-welcome').addEventListener('click', () => {
-            this.showScreen('welcome-screen');
-        });
-        
         document.getElementById('show-biography').addEventListener('click', () => {
             this.showBiography();
         });
         
         // Nuevo botón para volver al inicio desde la biografía
         document.getElementById('return-to-start').addEventListener('click', () => {
-            this.showScreen('character-selection');
+            this.showScreen('welcome-screen');
         });
         
         // Selección de personajes
@@ -178,7 +174,6 @@ class HistoricalPuzzleApp {
         piece.style.pointerEvents = 'none';
         
         this.updatePiecePosition(touch.clientX, touch.clientY);
-        // Eliminado: this.highlightValidSlots(piece); - No más pistas visuales
     }
     
     handleTouchMove(e) {
@@ -186,7 +181,6 @@ class HistoricalPuzzleApp {
         
         const touch = e.touches[0];
         this.updatePiecePosition(touch.clientX, touch.clientY);
-        // Eliminado: this.highlightNearbySlots - No más pistas visuales
     }
     
     handleTouchEnd(e) {
@@ -202,7 +196,6 @@ class HistoricalPuzzleApp {
         }
         
         this.resetDragState();
-        // Eliminado: this.clearHighlights(); - No hay highlights que limpiar
     }
     
     updatePiecePosition(x, y) {
