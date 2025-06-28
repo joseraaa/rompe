@@ -3,52 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rompecabezas Clásico de Mesa</title>
+    <title>Rompecabezas Histórico de Puebla - Museo</title>
     <link rel="stylesheet" href="estilos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="game-container">
-        <header class="game-header">
-            <h1 class="game-title">Rompecabezas Clásico</h1>
-            <div class="progress-display">
-                <span class="progress-label">Progreso:</span>
-                <span id="pieces-placed" class="progress-number">0</span>
-                <span class="progress-total">/ 12 piezas</span>
-            </div>
-        </header>
-
-        <main class="game-board">
-            <div class="puzzle-area">
-                <div class="board-frame">
-                    <div id="puzzle-grid" class="puzzle-grid"></div>
+    <div id="app">
+        <!-- Pantalla de Bienvenida -->
+        <div class="welcome-container">
+            <div class="ornamental-border">
+                <div class="corner-decoration top-left"></div>
+                <div class="corner-decoration top-right"></div>
+                <div class="corner-decoration bottom-left"></div>
+                <div class="corner-decoration bottom-right"></div>
+                
+                <div class="header-emblem"></div>
+                <h1 class="welcome-title">Rompecabezas Histórico Interactivo</h1>
+                <div class="subtitle-divider"></div>
+                <p class="welcome-subtitle">Descubra y arme los retratos de los héroes que forjaron la historia de la Sierra Norte de Puebla y de la gloriosa Batalla del 5 de Mayo</p>
+                
+                <div class="instructions-scroll">
+                    <div class="scroll-header">Instrucciones</div>
+                    <ol class="instructions-list">
+                        <li>Toque "Comenzar" para iniciar</li>
+                        <li>Seleccione uno de los ilustres personajes históricos</li>
+                        <li>Arme el rompecabezas tocando y arrastrando las piezas</li>
+                        <li>Al completarlo, descubra la biografía del personaje</li>
+                    </ol>
                 </div>
-            </div>
-
-            <div class="pieces-area">
-                <div class="pieces-frame">
-                    <h2 class="pieces-title">Piezas del Rompecabezas</h2>
-                    <div id="pieces-container" class="pieces-container"></div>
-                </div>
-            </div>
-        </main>
-
-        <div class="game-controls">
-            <button id="shuffle-btn" class="classic-button">Mezclar Piezas</button>
-            <button id="reset-btn" class="classic-button secondary">Reiniciar</button>
-        </div>
-
-        <div id="completion-message" class="completion-message hidden">
-            <div class="message-content">
-                <h2>¡Felicitaciones!</h2>
-                <p>Has completado el rompecabezas</p>
-                <button id="new-game-btn" class="classic-button">Nuevo Juego</button>
+                
+                <button id="start-btn" class="vintage-button primary">Comenzar</button>
             </div>
         </div>
     </div>
 
-    <script src="rompecabezas.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

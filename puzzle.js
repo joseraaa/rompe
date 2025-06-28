@@ -327,7 +327,7 @@ class PuzzleGame {
         piece.style.pointerEvents = '';
         piece.style.transform = 'scale(1) rotate(0deg)';
         piece.style.borderRadius = '6px';
-        piece.style.border = '3px solid #654321';
+        piece.style.border = '3px solid #8b4513';
         
         // Restaurar el tamaño de fondo original para el contenedor
         piece.style.backgroundSize = '320px 180px';

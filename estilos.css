@@ -8,18 +8,17 @@
 body {
     font-family: 'Crimson Text', serif;
     background: 
-        radial-gradient(circle at 30% 70%, rgba(139, 69, 19, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 70% 30%, rgba(160, 82, 45, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #8B4513 0%, #A0522D 25%, #CD853F 50%, #DEB887 75%, #F5DEB3 100%);
+        radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(160, 82, 45, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 50%, #d4c4a0 100%);
     min-height: 100vh;
-    padding: 20px;
+    touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
-    touch-action: manipulation;
+    position: relative;
 }
 
-/* Textura de madera */
 body::before {
     content: '';
     position: fixed;
@@ -28,250 +27,359 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 2px,
-            rgba(139, 69, 19, 0.1) 2px,
-            rgba(139, 69, 19, 0.1) 4px
-        ),
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 20px,
-            rgba(160, 82, 45, 0.05) 20px,
-            rgba(160, 82, 45, 0.05) 22px
-        );
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="0.5" fill="%23d4af37" opacity="0.1"/><circle cx="80" cy="40" r="0.3" fill="%238b4513" opacity="0.1"/><circle cx="40" cy="80" r="0.4" fill="%23cd853f" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat,
+        linear-gradient(45deg, transparent 49%, rgba(139, 69, 19, 0.02) 50%, transparent 51%);
     pointer-events: none;
     z-index: -1;
 }
 
-.game-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: 
-        linear-gradient(135deg, #F5DEB3 0%, #DEB887 50%, #D2B48C 100%);
-    border: 8px solid #8B4513;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        inset 0 0 30px rgba(139, 69, 19, 0.1),
-        0 0 0 4px #A0522D;
+#app {
     position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-/* Decoración de esquinas */
-.game-container::before,
-.game-container::after {
-    content: '';
-    position: absolute;
-    width: 40px;
-    height: 40px;
+/* Elementos decorativos */
+.ornamental-border {
+    position: relative;
     background: 
-        radial-gradient(circle, #8B4513 30%, #A0522D 70%);
-    border: 3px solid #654321;
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 3px solid #8b4513;
+    border-radius: 15px;
+    padding: 50px 40px;
+    box-shadow: 
+        inset 0 0 20px rgba(139, 69, 19, 0.1),
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        0 0 0 8px #d4af37,
+        0 0 0 12px #8b4513;
+    max-width: 900px;
+    text-align: center;
+}
+
+.corner-decoration {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #d4af37 30%, transparent 70%);
+    border: 2px solid #8b4513;
     border-radius: 50%;
 }
 
-.game-container::before {
-    top: -20px;
-    left: -20px;
-}
+.corner-decoration.top-left { top: -15px; left: -15px; }
+.corner-decoration.top-right { top: -15px; right: -15px; }
+.corner-decoration.bottom-left { bottom: -15px; left: -15px; }
+.corner-decoration.bottom-right { bottom: -15px; right: -15px; }
 
-.game-container::after {
-    top: -20px;
-    right: -20px;
-}
-
-/* Header del juego */
-.game-header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 20px;
+.header-emblem {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
     background: 
-        linear-gradient(135deg, #DEB887 0%, #D2B48C 100%);
-    border: 4px solid #8B4513;
-    border-radius: 15px;
-    box-shadow: 
-        inset 0 0 20px rgba(139, 69, 19, 0.1),
-        0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.game-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: #654321;
-    margin-bottom: 15px;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.3);
-}
-
-.progress-display {
-    font-size: 1.4rem;
-    color: #8B4513;
-    font-weight: 600;
-}
-
-.progress-number {
-    color: #CD853F;
-    font-weight: bold;
-    font-size: 1.6rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Área principal del juego */
-.game-board {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 30px;
-    min-height: 500px;
-}
-
-/* Área del tablero */
-.puzzle-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.board-frame {
-    background: 
-        linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #654321 100%);
-    border: 6px solid #654321;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 
-        inset 0 0 30px rgba(0, 0, 0, 0.3),
-        0 10px 25px rgba(0, 0, 0, 0.4);
+        radial-gradient(circle, #d4af37 0%, #b8941f  50%, #8b4513 100%);
+    border-radius: 50%;
+    border: 4px solid #8b4513;
     position: relative;
 }
 
-/* Textura de madera para el marco */
-.board-frame::before {
+.header-emblem::before {
+    content: '★';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: #8b4513;
+    font-weight: bold;
+}
+
+/* Tipografía */
+.welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: #5d4037;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.2);
+}
+
+.subtitle-divider {
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 0 auto 25px;
+    position: relative;
+}
+
+.subtitle-divider::before,
+.subtitle-divider::after {
+    content: '❦';
+    position: absolute;
+    top: -8px;
+    color: #8b4513;
+    font-size: 1.2rem;
+}
+
+.subtitle-divider::before { left: -20px; }
+.subtitle-divider::after { right: -20px; }
+
+.welcome-subtitle {
+    font-size: 1.4rem;
+    color: #6d4c41;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Scroll de instrucciones */
+.instructions-scroll {
+    background: 
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 2px solid #8b4513;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 30px 0;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.1);
+}
+
+.instructions-scroll::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 20px;
+    right: 20px;
+    height: 10px;
+    background: repeating-linear-gradient(
+        90deg,
+        #d4af37 0px,
+        #d4af37 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    border-radius: 5px;
+}
+
+.scroll-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #5d4037;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.instructions-list {
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+    counter-reset: instruction-counter;
+}
+
+.instructions-list li {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #6d4c41;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 40px;
+    counter-increment: instruction-counter;
+}
+
+.instructions-list li::before {
+    content: counter(instruction-counter, upper-roman);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #d4af37;
+    color: #5d4037;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 2px solid #8b4513;
+}
+
+/* Botones vintage */
+.vintage-button {
+    font-family: 'Playfair Display', serif;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    min-width: 200px;
+    min-height: 60px;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 10px;
+}
+
+.vintage-button.primary {
+    background: 
+        linear-gradient(135deg, #d4af37 0%, #b8941f 50%, #8b4513 100%);
+    color: #f9f6f0;
+    border: 3px solid #8b4513;
+    box-shadow: 
+        0 6px 15px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.vintage-button.primary:hover,
+.vintage-button.primary:active {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 20px rgba(139, 69, 19, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.vintage-button.secondary {
+    background: 
+        linear-gradient(135deg, #f9f6f0 0%, #e8dcc0 100%);
+    color: #5d4037;
+    border: 3px solid #8b4513;
+    box-shadow: 0 4px 10px rgba(139, 69, 19, 0.2);
+}
+
+.vintage-button.secondary:hover,
+.vintage-button.secondary:active {
+    background: 
+        linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    transform: translateY(-1px);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Selección de Personajes */
+.selection-container {
+    max-width: 1200px;
+    width: 100%;
+    background: 
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 4px solid #8b4513;
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(139, 69, 19, 0.1);
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #5d4037;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.title-ornament {
+    width: 150px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 0 auto;
+    position: relative;
+}
+
+.title-ornament::before,
+.title-ornament::after {
+    content: '◆';
+    position: absolute;
+    top: -8px;
+    color: #8b4513;
+    font-size: 1rem;
+}
+
+.title-ornament::before { left: -15px; }
+.title-ornament::after { right: -15px; }
+
+.characters-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.character-frame {
+    background: 
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 4px solid #8b4513;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.15),
+        inset 0 0 15px rgba(139, 69, 19, 0.05);
+    position: relative;
+}
+
+.character-frame::before {
     content: '';
     position: absolute;
     top: 10px;
     left: 10px;
     right: 10px;
     bottom: 10px;
-    background: 
-        repeating-linear-gradient(
-            45deg,
-            rgba(139, 69, 19, 0.1),
-            rgba(139, 69, 19, 0.1) 2px,
-            transparent 2px,
-            transparent 8px
-        );
-    border-radius: 8px;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
     pointer-events: none;
 }
 
-.puzzle-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 3px;
-    width: 400px;
-    height: 300px;
-    background: 
-        linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%);
-    border: 2px solid #8B4513;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.2);
+.character-frame:hover,
+.character-frame:active {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.25),
+        inset 0 0 20px rgba(212, 175, 55, 0.1);
+    border-color: #d4af37;
 }
 
-.puzzle-slot {
-    background: 
-        linear-gradient(135deg, rgba(245, 222, 179, 0.8) 0%, rgba(222, 184, 135, 0.8) 100%);
-    border: 2px dashed #8B4513;
-    border-radius: 6px;
+.portrait-container {
     position: relative;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 0 10px rgba(139, 69, 19, 0.1);
-}
-
-.puzzle-slot.highlight {
-    border-color: #CD853F;
-    background: rgba(205, 133, 63, 0.3);
-    box-shadow: 
-        inset 0 0 15px rgba(205, 133, 63, 0.3),
-        0 0 10px rgba(205, 133, 63, 0.5);
-}
-
-.puzzle-slot.filled {
-    border-color: #228B22;
-    background: rgba(34, 139, 34, 0.1);
-}
-
-/* Área de piezas */
-.pieces-area {
-    display: flex;
-    flex-direction: column;
-}
-
-.pieces-frame {
-    background: 
-        linear-gradient(135deg, #DEB887 0%, #D2B48C 100%);
-    border: 4px solid #8B4513;
-    border-radius: 15px;
-    padding: 20px;
-    height: 100%;
-    box-shadow: 
-        inset 0 0 20px rgba(139, 69, 19, 0.1),
-        0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.pieces-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: #654321;
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 600;
-    border-bottom: 3px solid #8B4513;
-    padding-bottom: 10px;
-}
-
-.pieces-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    align-content: flex-start;
-    overflow-y: auto;
-    max-height: 400px;
-    padding: 15px;
-    background: 
-        linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%);
-    border: 2px solid #8B4513;
+    width: 150px;
+    height: 180px;
+    margin: 0 auto 20px;
+    border: 3px solid #8b4513;
     border-radius: 10px;
-    box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.1);
-}
-
-/* Piezas del rompecabezas */
-.puzzle-piece {
-    width: 80px;
-    height: 60px;
-    border: 3px solid #654321;
-    border-radius: 8px;
-    cursor: grab;
-    transition: all 0.3s ease;
-    background-size: 320px 240px;
-    position: relative;
-    touch-action: none;
+    overflow: hidden;
     box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-    filter: contrast(1.1) brightness(0.95);
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 10px rgba(139, 69, 19, 0.2);
 }
 
-/* Efecto de madera en las piezas */
-.puzzle-piece::before {
-    content: '';
+.character-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) contrast(1.1) brightness(0.95);
+    transition: all 0.4s ease;
+}
+
+.character-frame:hover .character-portrait {
+    filter: sepia(10%) contrast(1.2) brightness(1.05);
+    transform: scale(1.05);
+}
+
+.portrait-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -282,30 +390,198 @@ body::before {
             rgba(139, 69, 19, 0.1) 0%, 
             transparent 30%, 
             transparent 70%, 
-            rgba(101, 67, 33, 0.1) 100%);
-    border-radius: 5px;
+            rgba(212, 175, 55, 0.1) 100%);
     pointer-events: none;
 }
 
-.puzzle-piece:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 
-        0 10px 20px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    border-color: #CD853F;
-    filter: contrast(1.2) brightness(1.05);
+.nameplate {
+    background: 
+        linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
 }
 
-.puzzle-piece:active,
-.puzzle-piece.dragging {
+.nameplate h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #5d4037;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.character-title {
+    font-size: 1rem;
+    color: #8b4513;
+    font-style: italic;
+    line-height: 1.3;
+}
+
+.navigation-controls {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* Pantalla del Rompecabezas */
+.puzzle-container {
+    max-width: 1400px;
+    width: 100%;
+    background: 
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 4px solid #8b4513;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(139, 69, 19, 0.1);
+}
+
+.puzzle-header {
+    text-align: center;
+    margin-bottom: 40px;
+    background: 
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 2px solid #8b4513;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.character-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #5d4037;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.progress-indicator {
+    font-size: 1.3rem;
+    color: #6d4c41;
+    font-weight: 500;
+}
+
+.progress-number {
+    color: #d4af37;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.puzzle-workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    min-height: 450px;
+}
+
+.puzzle-frame {
+    background: 
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 4px solid #8b4513;
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.1);
+}
+
+.puzzle-frame::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px dashed #d4af37;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.puzzle-board {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 3px;
+    min-height: 360px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.puzzle-slot {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 230, 210, 0.8) 100%);
+    border: 2px dashed #8b4513;
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.puzzle-slot.filled {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.pieces-tray {
+    background: 
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 4px solid #8b4513;
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+}
+
+.tray-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: #5d4037;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 10px;
+}
+
+.pieces-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-content: flex-start;
+    overflow-y: auto;
+    max-height: 350px;
+    padding: 10px;
+    background: rgba(139, 69, 19, 0.05);
+    border-radius: 10px;
+}
+
+.puzzle-piece {
+    width: 80px;
+    height: 60px;
+    border-radius: 6px;
+    cursor: grab;
+    transition: all 0.3s ease;
+    border: 3px solid #8b4513;
+    background-size: 320px 180px;
+    position: relative;
+    touch-action: none;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    filter: sepia(15%) contrast(1.1);
+}
+
+.puzzle-piece:active {
     cursor: grabbing;
     transform: scale(1.15) rotate(2deg);
     z-index: 1000;
     box-shadow: 
-        0 15px 30px rgba(0, 0, 0, 0.5),
+        0 12px 25px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border-color: #CD853F;
-    filter: contrast(1.3) brightness(1.1);
+    border-color: #d4af37;
 }
 
 .puzzle-piece.placed {
@@ -316,239 +592,313 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    cursor: default;
-    transform: none;
-    filter: contrast(1.2) brightness(1.05);
-    box-shadow: none;
+    filter: sepia(10%) contrast(1.2);
 }
 
-.puzzle-piece.placed::before {
-    display: none;
-}
-
-/* Controles del juego */
-.game-controls {
+.puzzle-controls {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
 }
 
-.classic-button {
-    font-family: 'Playfair Display', serif;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 150px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
+/* Pantalla de Biografía */
+.biography-container {
+    max-width: 1000px;
+    width: 100%;
+    background: 
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 4px solid #8b4513;
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(139, 69, 19, 0.1);
+}
+
+.biography-frame {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.completed-portrait-section {
+    text-align: center;
+}
+
+.portrait-frame-large {
+    width: 250px;
+    height: 300px;
+    margin: 0 auto;
+    border: 6px solid #8b4513;
+    border-radius: 15px;
     overflow: hidden;
-}
-
-.classic-button {
-    background: 
-        linear-gradient(135deg, #CD853F 0%, #D2B48C 50%, #DEB887 100%);
-    color: #654321;
-    border: 3px solid #8B4513;
     box-shadow: 
-        0 6px 15px rgba(139, 69, 19, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        inset 0 0 15px rgba(139, 69, 19, 0.2);
+    position: relative;
 }
 
-.classic-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 8px 20px rgba(139, 69, 19, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    background: 
-        linear-gradient(135deg, #DEB887 0%, #F5DEB3 50%, #FFFACD 100%);
+.portrait-frame-large::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.classic-button:active {
-    transform: translateY(0);
-    box-shadow: 
-        0 4px 10px rgba(139, 69, 19, 0.3),
-        inset 0 2px 5px rgba(139, 69, 19, 0.2);
-}
-
-.classic-button.secondary {
-    background: 
-        linear-gradient(135deg, #A0522D 0%, #8B4513 50%, #654321 100%);
-    color: #F5DEB3;
-}
-
-.classic-button.secondary:hover {
-    background: 
-        linear-gradient(135deg, #8B4513 0%, #654321 50%, #4A2C17 100%);
-}
-
-/* Mensaje de completación */
-.completion-message {
-    position: fixed;
-    top: 0;
-    left: 0;
+.completed-portrait {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    object-fit: cover;
+    filter: sepia(15%) contrast(1.2) brightness(1.05);
+}
+
+.biography-content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    z-index: 2000;
 }
 
-.message-content {
-    background: 
-        linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%);
-    border: 6px solid #8B4513;
-    border-radius: 20px;
-    padding: 40px;
+.biography-header {
     text-align: center;
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.5),
-        inset 0 0 30px rgba(139, 69, 19, 0.1);
-    animation: celebrationPop 0.6s ease-out;
+    margin-bottom: 30px;
 }
 
-.message-content h2 {
+.biography-title {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: #654321;
+    font-size: 2.2rem;
+    color: #5d4037;
     margin-bottom: 15px;
     font-weight: 700;
 }
 
-.message-content p {
+.title-flourish {
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 0 auto;
+    position: relative;
+}
+
+.title-flourish::before,
+.title-flourish::after {
+    content: '❦';
+    position: absolute;
+    top: -8px;
+    color: #8b4513;
+    font-size: 1rem;
+}
+
+.title-flourish::before { left: -15px; }
+.title-flourish::after { right: -15px; }
+
+.biography-scroll {
+    background: 
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.1);
+    position: relative;
+}
+
+.biography-scroll::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 30px;
+    right: 30px;
+    height: 16px;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            #d4af37 0px,
+            #d4af37 15px,
+            transparent 15px,
+            transparent 30px
+        );
+    border-radius: 8px;
+}
+
+.biography-text {
     font-size: 1.3rem;
-    color: #8B4513;
-    margin-bottom: 25px;
+    color: #5d4037;
+    line-height: 1.7;
+    text-align: justify;
+    text-indent: 2em;
 }
 
-.hidden {
-    display: none !important;
-}
-
-/* Animaciones */
-@keyframes celebrationPop {
-    0% {
-        transform: scale(0.5) rotate(-10deg);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1) rotate(5deg);
-    }
-    100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-    }
-}
-
-@keyframes pieceGlow {
-    0%, 100% {
-        box-shadow: 
-            0 6px 12px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-    50% {
-        box-shadow: 
-            0 6px 12px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2),
-            0 0 20px rgba(205, 133, 63, 0.8);
-    }
-}
-
-@keyframes slotPulse {
-    0%, 100% {
-        transform: scale(1);
-        background: rgba(34, 139, 34, 0.1);
-    }
-    50% {
-        transform: scale(1.02);
-        background: rgba(34, 139, 34, 0.2);
-    }
-}
-
-.puzzle-slot.filled {
-    animation: slotPulse 0.6s ease;
+.biography-controls {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .game-board {
+    .welcome-title {
+        font-size: 2.2rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .characters-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .character-frame {
+        padding: 20px;
+    }
+    
+    .portrait-container {
+        width: 120px;
+        height: 150px;
+    }
+    
+    .puzzle-workspace {
         grid-template-columns: 1fr;
         gap: 25px;
     }
     
-    .puzzle-grid {
-        width: 320px;
+    .puzzle-piece {
+        width: 65px;
+        height: 50px;
+    }
+    
+    .biography-frame {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .portrait-frame-large {
+        width: 200px;
         height: 240px;
     }
     
-    .puzzle-piece {
-        width: 64px;
-        height: 48px;
-        background-size: 256px 192px;
+    .biography-text {
+        font-size: 1.2rem;
+        text-align: left;
     }
     
-    .game-title {
-        font-size: 2rem;
-    }
-    
-    .pieces-container {
-        max-height: 300px;
-    }
-    
-    .classic-button {
-        padding: 12px 25px;
+    .vintage-button {
+        padding: 15px 30px;
         font-size: 1.1rem;
-        min-width: 130px;
+        min-width: 180px;
     }
 }
 
 @media (max-width: 480px) {
-    .game-container {
-        padding: 20px;
+    .ornamental-border,
+    .selection-container,
+    .puzzle-container,
+    .biography-container {
+        padding: 25px;
         margin: 10px;
     }
     
-    .puzzle-grid {
-        width: 280px;
-        height: 210px;
+    .characters-gallery {
+        grid-template-columns: 1fr;
     }
     
-    .puzzle-piece {
-        width: 56px;
-        height: 42px;
-        background-size: 224px 168px;
-    }
-    
-    .game-controls {
+    .puzzle-controls,
+    .biography-controls {
         flex-direction: column;
         align-items: center;
     }
     
-    .pieces-container {
-        gap: 10px;
-        padding: 10px;
+    .instructions-list li {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
     }
 }
 
-/* Prevenir selección de texto y zoom */
-.puzzle-piece,
-.puzzle-slot,
-.classic-button {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
+/* Animaciones específicas del museo */
+@keyframes antiqueFade {
+    0% { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95);
+        filter: sepia(50%);
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0) scale(1);
+        filter: sepia(15%);
+    }
 }
 
-/* Efectos especiales para completar piezas */
-.piece-success {
-    animation: pieceGlow 0.8s ease;
+@keyframes vintageGlow {
+    0%, 100% { 
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+    }
+}
+
+@keyframes vintageGlowPiece {
+    0% { 
+        transform: scale(1); 
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+    }
+    50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+        background-color: rgba(212, 175, 55, 0.2); 
+    }
+    100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+    }
+}
+
+@keyframes antiqueFadeBoard {
+    0%, 20%, 53%, 80%, 100% { 
+        transform: translateY(0) scale(1); 
+        filter: sepia(15%);
+    }
+    40%, 43% { 
+        transform: translateY(-8px) scale(1.02); 
+        filter: sepia(5%);
+    }
+    70% { 
+        transform: translateY(-4px) scale(1.01); 
+        filter: sepia(10%);
+    }
+    90% { 
+        transform: translateY(-2px) scale(1.005); 
+        filter: sepia(12%);
+    }
+}
+
+.character-frame:hover {
+    animation: vintageGlow 2s ease-in-out infinite;
+}
+
+.puzzle-piece {
+    will-change: transform;
+    transition: filter 0.3s ease;
+}
+
+.puzzle-piece:active {
+    transition: none;
+    filter: sepia(5%) contrast(1.3) brightness(1.1);
+}
+
+.character-frame:hover .character-portrait {
+    animation: vintageGlow 2s ease-in-out infinite;
 }
