@@ -106,7 +106,7 @@ class HistoricalPuzzleApp {
         this.puzzlePieces = [];
         this.completedPieces = 0;
         
-        // Crear slots del tablero
+        // Crear slots del tablero en orden correcto
         for (let i = 0; i < 12; i++) {
             const slot = document.createElement('div');
             slot.className = 'puzzle-slot';
@@ -114,17 +114,17 @@ class HistoricalPuzzleApp {
             board.appendChild(slot);
         }
         
-        // Crear array de posiciones únicas para evitar duplicaciones
-        const uniquePositions = [];
+        // Crear array de posiciones únicas (0-11) para las piezas
+        const piecePositions = [];
         for (let i = 0; i < 12; i++) {
-            uniquePositions.push(i);
+            piecePositions.push(i);
         }
         
-        // Mezclar las posiciones automáticamente
-        this.shuffleArray(uniquePositions);
+        // Mezclar las posiciones para que aparezcan en orden aleatorio
+        this.shuffleArray(piecePositions);
         
         // Crear piezas del rompecabezas con posiciones únicas
-        uniquePositions.forEach((position) => {
+        piecePositions.forEach((position) => {
             const piece = this.createPuzzlePiece(position);
             container.appendChild(piece);
             this.puzzlePieces.push(piece);
@@ -136,16 +136,31 @@ class HistoricalPuzzleApp {
         piece.className = 'puzzle-piece';
         piece.dataset.position = position;
         
-        // Calcular posición única de la imagen de fondo
-        const row = Math.floor(position / 4);
-        const col = position % 4;
-        const backgroundX = -col * 80;
-        const backgroundY = -row * 60;
+        // Dimensiones del tablero: 4 columnas x 3 filas = 12 piezas
+        const cols = 4;
+        const rows = 3;
+        
+        // Calcular fila y columna de esta pieza específica
+        const row = Math.floor(position / cols);
+        const col = position % cols;
+        
+        // Dimensiones de cada pieza en el CSS (80px x 60px)
+        const pieceWidth = 80;
+        const pieceHeight = 60;
+        
+        // Dimensiones totales de la imagen de fondo (320px x 180px)
+        const totalWidth = 320;
+        const totalHeight = 180;
+        
+        // Calcular la posición exacta del fondo para mostrar la sección correcta
+        const backgroundX = -(col * pieceWidth);
+        const backgroundY = -(row * pieceHeight);
         
         const character = this.characters[this.currentCharacter];
         piece.style.backgroundImage = `url(${character.image})`;
         piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
-        piece.style.backgroundSize = '320px 180px';
+        piece.style.backgroundSize = `${totalWidth}px ${totalHeight}px`;
+        piece.style.backgroundRepeat = 'no-repeat';
         
         // Eventos táctiles
         piece.addEventListener('touchstart', (e) => {
@@ -233,6 +248,7 @@ class HistoricalPuzzleApp {
     }
     
     placePiece(piece, slot) {
+        // Resetear estilos de arrastre
         piece.style.position = 'absolute';
         piece.style.left = '0';
         piece.style.top = '0';
@@ -242,6 +258,9 @@ class HistoricalPuzzleApp {
         piece.style.pointerEvents = 'none';
         piece.style.borderRadius = '0';
         piece.style.border = 'none';
+        
+        // Mantener el background correcto para la imagen completa
+        piece.style.backgroundSize = '320px 180px';
         
         piece.classList.add('placed');
         slot.classList.add('filled');
