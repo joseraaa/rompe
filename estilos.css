@@ -6,14 +6,12 @@
 }
 
 body {
-    font-family: 'Comic Neue', 'Fredoka One', 'Crimson Text', serif;
+    font-family: 'Crimson Text', serif;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 152, 0, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 50%, #ffe082 100%);
+        radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(160, 82, 45, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 50%, #d4c4a0 100%);
     min-height: 100vh;
-    height: 100vh;
-    overflow: hidden;
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
@@ -36,8 +34,8 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23ffc107" opacity="0.1"/><circle cx="80" cy="40" r="0.8" fill="%23ff9800" opacity="0.1"/><circle cx="40" cy="80" r="1.2" fill="%23ffb74d" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat,
-        linear-gradient(45deg, transparent 49%, rgba(255, 193, 7, 0.03) 50%, transparent 51%);
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="0.5" fill="%23d4af37" opacity="0.1"/><circle cx="80" cy="40" r="0.3" fill="%238b4513" opacity="0.1"/><circle cx="40" cy="80" r="0.4" fill="%23cd853f" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat,
+        linear-gradient(45deg, transparent 49%, rgba(139, 69, 19, 0.02) 50%, transparent 51%);
     pointer-events: none;
     z-index: -1;
 }
@@ -45,32 +43,28 @@ body::before {
 #app {
     position: relative;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px;
-    overflow: hidden;
+    padding: 20px;
 }
 
 /* Elementos decorativos */
 .ornamental-border {
     position: relative;
     background: 
-        linear-gradient(135deg, #fff9c4 0%, #fff176 50%, #ffeb3b 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 25px;
-    padding: 30px 25px;
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 3px solid #8b4513;
+    border-radius: 15px;
+    padding: 50px 40px;
     box-shadow: 
-        inset 0 0 25px rgba(255, 111, 0, 0.1),
-        0 15px 40px rgba(0, 0, 0, 0.2),
-        0 0 0 8px #ffc107,
-        0 0 0 12px #ff6f00;
-    max-width: 800px;
-    max-height: 90vh;
+        inset 0 0 20px rgba(139, 69, 19, 0.1),
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        0 0 0 8px #d4af37,
+        0 0 0 12px #8b4513;
+    max-width: 900px;
     text-align: center;
-    overflow-y: auto;
     /* Eliminar scrollbars */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -82,117 +76,112 @@ body::before {
 
 .corner-decoration {
     position: absolute;
-    width: 35px;
-    height: 35px;
-    background: radial-gradient(circle, #ffc107 30%, transparent 70%);
-    border: 3px solid #ff6f00;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #d4af37 30%, transparent 70%);
+    border: 2px solid #8b4513;
     border-radius: 50%;
 }
 
-.corner-decoration.top-left { top: -17px; left: -17px; }
-.corner-decoration.top-right { top: -17px; right: -17px; }
-.corner-decoration.bottom-left { bottom: -17px; left: -17px; }
-.corner-decoration.bottom-right { bottom: -17px; right: -17px; }
+.corner-decoration.top-left { top: -15px; left: -15px; }
+.corner-decoration.top-right { top: -15px; right: -15px; }
+.corner-decoration.bottom-left { bottom: -15px; left: -15px; }
+.corner-decoration.bottom-right { bottom: -15px; right: -15px; }
 
 .header-emblem {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 20px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
     background: 
-        radial-gradient(circle, #ffc107 0%, #ff9800 50%, #ff6f00 100%);
+        radial-gradient(circle, #d4af37 0%, #b8941f  50%, #8b4513 100%);
     border-radius: 50%;
-    border: 4px solid #ff6f00;
+    border: 4px solid #8b4513;
     position: relative;
-    box-shadow: 0 8px 20px rgba(255, 111, 0, 0.3);
 }
 
 .header-emblem::before {
-    content: '⭐';
+    content: '★';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2rem;
-    color: #ff6f00;
+    color: #8b4513;
     font-weight: bold;
 }
 
-/* Tipografía amigable para niños */
+/* Tipografía */
 .welcome-title {
-    font-family: 'Fredoka One', 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: #e65100;
-    margin-bottom: 15px;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: #5d4037;
+    margin-bottom: 20px;
     font-weight: 700;
     line-height: 1.2;
-    text-shadow: 3px 3px 6px rgba(230, 81, 0, 0.3);
-    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.2);
 }
 
 .subtitle-divider {
-    width: 180px;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, #ffc107, transparent);
-    margin: 0 auto 20px;
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 0 auto 25px;
     position: relative;
-    border-radius: 2px;
 }
 
 .subtitle-divider::before,
 .subtitle-divider::after {
-    content: '🌟';
+    content: '❦';
     position: absolute;
-    top: -12px;
-    font-size: 1.5rem;
+    top: -8px;
+    color: #8b4513;
+    font-size: 1.2rem;
 }
 
-.subtitle-divider::before { left: -25px; }
-.subtitle-divider::after { right: -25px; }
+.subtitle-divider::before { left: -20px; }
+.subtitle-divider::after { right: -20px; }
 
 .welcome-subtitle {
-    font-family: 'Comic Neue', sans-serif;
     font-size: 1.4rem;
-    color: #bf360c;
-    margin-bottom: 25px;
+    color: #6d4c41;
+    margin-bottom: 40px;
     line-height: 1.6;
-    font-weight: 600;
+    font-style: italic;
 }
 
 /* Scroll de instrucciones */
 .instructions-scroll {
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    border: 3px solid #ff6f00;
-    border-radius: 20px;
-    padding: 25px;
-    margin: 20px 0;
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 2px solid #8b4513;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 30px 0;
     position: relative;
-    box-shadow: 
-        inset 0 0 20px rgba(255, 111, 0, 0.1),
-        0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.1);
 }
 
 .instructions-scroll::before {
     content: '';
     position: absolute;
-    top: -8px;
-    left: 25px;
-    right: 25px;
-    height: 16px;
+    top: -5px;
+    left: 20px;
+    right: 20px;
+    height: 10px;
     background: repeating-linear-gradient(
         90deg,
-        #ffc107 0px,
-        #ffc107 15px,
-        transparent 15px,
-        transparent 30px
+        #d4af37 0px,
+        #d4af37 10px,
+        transparent 10px,
+        transparent 20px
     );
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .scroll-header {
-    font-family: 'Fredoka One', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
-    color: #e65100;
+    color: #5d4037;
     margin-bottom: 20px;
     font-weight: 600;
     text-align: center;
@@ -200,94 +189,88 @@ body::before {
 
 .instructions-list {
     text-align: left;
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     counter-reset: instruction-counter;
 }
 
 .instructions-list li {
-    font-family: 'Comic Neue', sans-serif;
     font-size: 1.2rem;
     margin-bottom: 15px;
-    color: #bf360c;
+    color: #6d4c41;
     line-height: 1.5;
     position: relative;
-    padding-left: 45px;
+    padding-left: 40px;
     counter-increment: instruction-counter;
-    font-weight: 600;
 }
 
 .instructions-list li::before {
-    content: counter(instruction-counter);
+    content: counter(instruction-counter, upper-roman);
     position: absolute;
     left: 0;
     top: 0;
-    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-    color: #fff;
-    width: 35px;
-    height: 35px;
+    background: #d4af37;
+    color: #5d4037;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 1.1rem;
-    border: 3px solid #ff6f00;
-    box-shadow: 0 4px 12px rgba(255, 111, 0, 0.3);
+    font-size: 0.9rem;
+    border: 2px solid #8b4513;
 }
 
-/* Botones amigables para niños */
+/* Botones vintage */
 .vintage-button {
-    font-family: 'Fredoka One', serif;
+    font-family: 'Playfair Display', serif;
     border: none;
-    padding: 20px 40px;
-    font-size: 1.4rem;
+    padding: 18px 40px;
+    font-size: 1.3rem;
     font-weight: 600;
-    border-radius: 25px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     min-width: 200px;
     min-height: 60px;
     position: relative;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin: 15px;
-    /* Área táctil amplia */
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    margin: 10px;
 }
 
 .vintage-button.primary {
     background: 
-        linear-gradient(135deg, #ffc107 0%, #ff9800 50%, #ff6f00 100%);
-    color: #fff;
-    border: 4px solid #e65100;
+        linear-gradient(135deg, #d4af37 0%, #b8941f 50%, #8b4513 100%);
+    color: #f9f6f0;
+    border: 3px solid #8b4513;
     box-shadow: 
-        0 8px 20px rgba(255, 111, 0, 0.4),
-        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+        0 6px 15px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .vintage-button.primary:hover,
 .vintage-button.primary:active {
-    transform: translateY(-3px) scale(1.05);
+    transform: translateY(-2px);
     box-shadow: 
-        0 12px 30px rgba(255, 111, 0, 0.5),
-        inset 0 2px 0 rgba(255, 255, 255, 0.4);
+        0 8px 20px rgba(139, 69, 19, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .vintage-button.secondary {
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    color: #e65100;
-    border: 4px solid #ff6f00;
-    box-shadow: 0 6px 15px rgba(255, 111, 0, 0.3);
+        linear-gradient(135deg, #f9f6f0 0%, #e8dcc0 100%);
+    color: #5d4037;
+    border: 3px solid #8b4513;
+    box-shadow: 0 4px 10px rgba(139, 69, 19, 0.2);
 }
 
 .vintage-button.secondary:hover,
 .vintage-button.secondary:active {
     background: 
-        linear-gradient(135deg, #ffecb3 0%, #ffe082 100%);
-    transform: translateY(-2px) scale(1.03);
+        linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    transform: translateY(-1px);
 }
 
 .hidden {
@@ -296,18 +279,16 @@ body::before {
 
 /* Selección de Personajes */
 .selection-container {
-    max-width: 1000px;
+    max-width: 1200px;
     width: 100%;
-    max-height: 90vh;
     background: 
-        linear-gradient(135deg, #fff9c4 0%, #fff176 50%, #ffeb3b 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 30px;
-    padding: 30px;
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 4px solid #8b4513;
+    border-radius: 20px;
+    padding: 50px;
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.2),
-        inset 0 0 25px rgba(255, 111, 0, 0.1);
-    overflow-y: auto;
+        0 15px 35px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(139, 69, 19, 0.1);
     /* Eliminar scrollbars */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -319,107 +300,103 @@ body::before {
 
 .page-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 .section-title {
-    font-family: 'Fredoka One', serif;
-    font-size: 2.3rem;
-    color: #e65100;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #5d4037;
     font-weight: 700;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(230, 81, 0, 0.3);
+    margin-bottom: 20px;
 }
 
 .title-ornament {
     width: 150px;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #ffc107, transparent);
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
     margin: 0 auto;
     position: relative;
-    border-radius: 3px;
 }
 
 .title-ornament::before,
 .title-ornament::after {
-    content: '🌟';
+    content: '◆';
     position: absolute;
-    top: -12px;
-    font-size: 1.5rem;
+    top: -8px;
+    color: #8b4513;
+    font-size: 1rem;
 }
 
-.title-ornament::before { left: -25px; }
-.title-ornament::after { right: -25px; }
+.title-ornament::before { left: -15px; }
+.title-ornament::after { right: -15px; }
 
 .characters-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 50px;
 }
 
 .character-frame {
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 25px;
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 4px solid #8b4513;
+    border-radius: 15px;
     padding: 25px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.15),
-        inset 0 0 20px rgba(255, 111, 0, 0.05);
+        0 8px 20px rgba(0, 0, 0, 0.15),
+        inset 0 0 15px rgba(139, 69, 19, 0.05);
     position: relative;
-    /* Área táctil amplia */
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .character-frame::before {
     content: '';
     position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border: 2px solid #ffc107;
-    border-radius: 20px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
     pointer-events: none;
 }
 
 .character-frame:hover,
 .character-frame:active {
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-5px) scale(1.02);
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.25),
-        inset 0 0 25px rgba(255, 193, 7, 0.15);
-    border-color: #ffc107;
+        0 15px 30px rgba(0, 0, 0, 0.25),
+        inset 0 0 20px rgba(212, 175, 55, 0.1);
+    border-color: #d4af37;
 }
 
 .portrait-container {
     position: relative;
-    width: 140px;
-    height: 170px;
+    width: 150px;
+    height: 180px;
     margin: 0 auto 20px;
-    border: 4px solid #ff6f00;
-    border-radius: 20px;
+    border: 3px solid #8b4513;
+    border-radius: 10px;
     overflow: hidden;
     box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.3),
-        inset 0 0 15px rgba(255, 111, 0, 0.2);
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 10px rgba(139, 69, 19, 0.2);
 }
 
 .character-portrait {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: sepia(10%) contrast(1.1) brightness(1.05) saturate(1.2);
-    transition: all 0.3s ease;
+    filter: sepia(20%) contrast(1.1) brightness(0.95);
+    transition: all 0.4s ease;
 }
 
 .character-frame:hover .character-portrait {
-    filter: sepia(5%) contrast(1.2) brightness(1.1) saturate(1.3);
+    filter: sepia(10%) contrast(1.2) brightness(1.05);
     transform: scale(1.05);
 }
 
@@ -431,36 +408,34 @@ body::before {
     bottom: 0;
     background: 
         linear-gradient(135deg, 
-            rgba(255, 111, 0, 0.1) 0%, 
+            rgba(139, 69, 19, 0.1) 0%, 
             transparent 30%, 
             transparent 70%, 
-            rgba(255, 193, 7, 0.1) 100%);
+            rgba(212, 175, 55, 0.1) 100%);
     pointer-events: none;
 }
 
 .nameplate {
     background: 
-        linear-gradient(135deg, #ffecb3 0%, #ffe082 100%);
-    border: 3px solid #ff6f00;
-    border-radius: 15px;
+        linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b4513;
+    border-radius: 8px;
     padding: 15px;
     margin-top: 15px;
-    box-shadow: 0 4px 12px rgba(255, 111, 0, 0.2);
 }
 
 .nameplate h3 {
-    font-family: 'Fredoka One', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.3rem;
-    color: #e65100;
+    color: #5d4037;
     margin-bottom: 8px;
     font-weight: 600;
 }
 
 .character-title {
-    font-family: 'Comic Neue', sans-serif;
     font-size: 1rem;
-    color: #bf360c;
-    font-weight: 600;
+    color: #8b4513;
+    font-style: italic;
     line-height: 1.3;
 }
 
@@ -473,18 +448,16 @@ body::before {
 
 /* Pantalla del Rompecabezas */
 .puzzle-container {
-    max-width: 1200px;
+    max-width: 1400px;
     width: 100%;
-    max-height: 90vh;
     background: 
-        linear-gradient(135deg, #fff9c4 0%, #fff176 50%, #ffeb3b 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 30px;
-    padding: 25px;
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 4px solid #8b4513;
+    border-radius: 20px;
+    padding: 40px;
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.2),
-        inset 0 0 25px rgba(255, 111, 0, 0.1);
-    overflow-y: auto;
+        0 15px 35px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(139, 69, 19, 0.1);
     /* Eliminar scrollbars */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -496,66 +469,61 @@ body::before {
 
 .puzzle-header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    border: 3px solid #ff6f00;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 6px 15px rgba(255, 111, 0, 0.2);
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 2px solid #8b4513;
+    border-radius: 10px;
+    padding: 25px;
 }
 
 .character-name {
-    font-family: 'Fredoka One', serif;
-    font-size: 1.8rem;
-    color: #e65100;
-    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #5d4037;
+    margin-bottom: 15px;
     font-weight: 600;
-    text-shadow: 1px 1px 3px rgba(230, 81, 0, 0.3);
 }
 
 .progress-indicator {
-    font-family: 'Comic Neue', sans-serif;
     font-size: 1.3rem;
-    color: #bf360c;
-    font-weight: 600;
+    color: #6d4c41;
+    font-weight: 500;
 }
 
 .progress-number {
-    color: #ff6f00;
+    color: #d4af37;
     font-weight: bold;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
 }
 
 .puzzle-workspace {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px;
-    margin-bottom: 25px;
-    min-height: 350px;
+    gap: 40px;
+    margin-bottom: 40px;
+    min-height: 450px;
 }
 
 .puzzle-frame {
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 25px;
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 4px solid #8b4513;
+    border-radius: 15px;
     padding: 20px;
     position: relative;
-    box-shadow: 
-        inset 0 0 25px rgba(255, 111, 0, 0.1),
-        0 6px 15px rgba(255, 111, 0, 0.2);
+    box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.1);
 }
 
 .puzzle-frame::before {
     content: '';
     position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-    border: 3px dashed #ffc107;
-    border-radius: 20px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px dashed #d4af37;
+    border-radius: 10px;
     pointer-events: none;
 }
 
@@ -565,61 +533,57 @@ body::before {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 3px;
-    min-height: 280px;
-    background: rgba(255, 111, 0, 0.1);
-    border-radius: 15px;
+    min-height: 360px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 10px;
     padding: 10px;
 }
 
 .puzzle-slot {
     background: 
-        linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 236, 179, 0.9) 100%);
-    border: 3px dashed #ff6f00;
-    border-radius: 10px;
+        linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 230, 210, 0.8) 100%);
+    border: 2px dashed #8b4513;
+    border-radius: 6px;
     position: relative;
     transition: all 0.3s ease;
 }
 
 .puzzle-slot.filled {
-    border-color: #4caf50;
-    background: rgba(76, 175, 80, 0.1);
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
 }
 
 .pieces-tray {
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 25px;
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 4px solid #8b4513;
+    border-radius: 15px;
     padding: 20px;
     position: relative;
-    box-shadow: 
-        inset 0 0 25px rgba(255, 111, 0, 0.1),
-        0 6px 15px rgba(255, 111, 0, 0.2);
 }
 
 .tray-label {
-    font-family: 'Fredoka One', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.2rem;
-    color: #e65100;
+    color: #5d4037;
     text-align: center;
     margin-bottom: 15px;
     font-weight: 600;
-    border-bottom: 3px solid #ffc107;
+    border-bottom: 2px solid #d4af37;
     padding-bottom: 10px;
 }
 
 .pieces-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
     align-content: flex-start;
     overflow-y: auto;
-    max-height: 280px;
+    max-height: 350px;
     padding: 10px;
-    background: rgba(255, 111, 0, 0.05);
-    border-radius: 15px;
+    background: rgba(139, 69, 19, 0.05);
+    border-radius: 10px;
     /* Eliminar scrollbars */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -630,31 +594,29 @@ body::before {
 }
 
 .puzzle-piece {
-    width: 70px;
-    height: 55px;
-    border-radius: 12px;
+    width: 80px;
+    height: 60px;
+    border-radius: 6px;
     cursor: grab;
     transition: all 0.3s ease;
-    border: 4px solid #ff6f00;
-    background-size: 280px 165px;
+    border: 3px solid #8b4513;
+    background-size: 320px 180px;
     position: relative;
     touch-action: none;
     box-shadow: 
-        0 6px 15px rgba(0, 0, 0, 0.2),
-        inset 0 2px 0 rgba(255, 255, 255, 0.3);
-    filter: sepia(10%) contrast(1.1) saturate(1.2);
-    /* Área táctil amplia */
-    -webkit-tap-highlight-color: transparent;
+        0 4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    filter: sepia(15%) contrast(1.1);
 }
 
 .puzzle-piece:active {
     cursor: grabbing;
-    transform: scale(1.2) rotate(3deg);
+    transform: scale(1.15) rotate(2deg);
     z-index: 1000;
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.4),
-        inset 0 2px 0 rgba(255, 255, 255, 0.4);
-    border-color: #ffc107;
+        0 12px 25px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-color: #d4af37;
 }
 
 .puzzle-piece.placed {
@@ -665,7 +627,7 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    filter: sepia(5%) contrast(1.2) saturate(1.3);
+    filter: sepia(10%) contrast(1.2);
 }
 
 .puzzle-controls {
@@ -677,18 +639,16 @@ body::before {
 
 /* Pantalla de Biografía */
 .biography-container {
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
-    max-height: 90vh;
     background: 
-        linear-gradient(135deg, #fff9c4 0%, #fff176 50%, #ffeb3b 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 30px;
-    padding: 30px;
+        linear-gradient(135deg, #f9f6f0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    border: 4px solid #8b4513;
+    border-radius: 20px;
+    padding: 50px;
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.2),
-        inset 0 0 25px rgba(255, 111, 0, 0.1);
-    overflow-y: auto;
+        0 15px 35px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(139, 69, 19, 0.1);
     /* Eliminar scrollbars */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -700,9 +660,9 @@ body::before {
 
 .biography-frame {
     display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 30px;
-    margin-bottom: 30px;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
 }
 
 .completed-portrait-section {
@@ -710,27 +670,27 @@ body::before {
 }
 
 .portrait-frame-large {
-    width: 200px;
-    height: 250px;
+    width: 250px;
+    height: 300px;
     margin: 0 auto;
-    border: 6px solid #ff6f00;
-    border-radius: 25px;
+    border: 6px solid #8b4513;
+    border-radius: 15px;
     overflow: hidden;
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 0 20px rgba(255, 111, 0, 0.2);
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        inset 0 0 15px rgba(139, 69, 19, 0.2);
     position: relative;
 }
 
 .portrait-frame-large::before {
     content: '';
     position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border: 3px solid #ffc107;
-    border-radius: 18px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
     pointer-events: none;
     z-index: 1;
 }
@@ -739,7 +699,7 @@ body::before {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: sepia(10%) contrast(1.2) brightness(1.05) saturate(1.2);
+    filter: sepia(15%) contrast(1.2) brightness(1.05);
 }
 
 .biography-content {
@@ -750,76 +710,71 @@ body::before {
 
 .biography-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .biography-title {
-    font-family: 'Fredoka One', serif;
-    font-size: 2rem;
-    color: #e65100;
-    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #5d4037;
+    margin-bottom: 15px;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(230, 81, 0, 0.3);
 }
 
 .title-flourish {
     width: 100px;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, #ffc107, transparent);
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
     margin: 0 auto;
     position: relative;
-    border-radius: 2px;
 }
 
 .title-flourish::before,
 .title-flourish::after {
-    content: '🌟';
+    content: '❦';
     position: absolute;
-    top: -12px;
-    font-size: 1.2rem;
+    top: -8px;
+    color: #8b4513;
+    font-size: 1rem;
 }
 
-.title-flourish::before { left: -20px; }
-.title-flourish::after { right: -20px; }
+.title-flourish::before { left: -15px; }
+.title-flourish::after { right: -15px; }
 
 .biography-scroll {
     background: 
-        linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-    border: 4px solid #ff6f00;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 
-        inset 0 0 20px rgba(255, 111, 0, 0.1),
-        0 6px 15px rgba(255, 111, 0, 0.2);
+        linear-gradient(135deg, #faf8f3 0%, #f0e6d2 100%);
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: inset 0 0 15px rgba(139, 69, 19, 0.1);
     position: relative;
 }
 
 .biography-scroll::before {
     content: '';
     position: absolute;
-    top: -10px;
-    left: 35px;
-    right: 35px;
-    height: 20px;
+    top: -8px;
+    left: 30px;
+    right: 30px;
+    height: 16px;
     background: 
         repeating-linear-gradient(
             90deg,
-            #ffc107 0px,
-            #ffc107 20px,
-            transparent 20px,
-            transparent 40px
+            #d4af37 0px,
+            #d4af37 15px,
+            transparent 15px,
+            transparent 30px
         );
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .biography-text {
-    font-family: 'Comic Neue', sans-serif;
     font-size: 1.3rem;
-    color: #e65100;
+    color: #5d4037;
     line-height: 1.7;
     text-align: justify;
     text-indent: 2em;
-    font-weight: 500;
 }
 
 .biography-controls {
@@ -829,31 +784,72 @@ body::before {
     flex-wrap: wrap;
 }
 
+/* Credits Carousel */
+.credits-carousel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(135deg, #8b4513 0%, #5d4037 100%);
+    border-top: 3px solid #d4af37;
+    overflow: hidden;
+    z-index: 100;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.credits-track {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    animation: creditsScroll 60s linear infinite;
+    white-space: nowrap;
+}
+
+.credits-section {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 30px;
+    height: 100%;
+}
+
+.credits-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: #d4af37;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 8px;
+}
+
+.credits-name {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    color: #f9f6f0;
+    font-weight: 400;
+}
+
+.credits-separator {
+    width: 2px;
+    height: 30px;
+    background: #d4af37;
+    margin: 0 20px;
+}
+
+@keyframes creditsScroll {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    body {
-        height: auto;
-        min-height: 100vh;
-        overflow: auto;
-    }
-
-    #app {
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
-        padding: 10px;
-    }
-
-    .ornamental-border,
-    .selection-container,
-    .puzzle-container,
-    .biography-container {
-        max-height: none;
-        padding: 20px;
-    }
-
     .welcome-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
     
     .welcome-subtitle {
@@ -871,40 +867,55 @@ body::before {
     
     .portrait-container {
         width: 120px;
-        height: 140px;
+        height: 150px;
     }
     
     .puzzle-workspace {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 25px;
     }
     
     .puzzle-piece {
-        width: 60px;
-        height: 47px;
-        background-size: 240px 141px;
+        width: 65px;
+        height: 50px;
     }
     
     .biography-frame {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 30px;
         text-align: center;
     }
     
     .portrait-frame-large {
-        width: 160px;
-        height: 200px;
+        width: 200px;
+        height: 240px;
     }
     
     .biography-text {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         text-align: left;
     }
     
     .vintage-button {
         padding: 15px 30px;
-        font-size: 1.2rem;
-        min-width: 170px;
+        font-size: 1.1rem;
+        min-width: 180px;
+    }
+
+    .credits-carousel {
+        height: 50px;
+    }
+
+    .credits-role {
+        font-size: 0.8rem;
+    }
+
+    .credits-name {
+        font-size: 0.9rem;
+    }
+
+    .credits-section {
+        padding: 0 20px;
     }
 }
 
@@ -913,8 +924,8 @@ body::before {
     .selection-container,
     .puzzle-container,
     .biography-container {
-        padding: 15px;
-        margin: 5px;
+        padding: 25px;
+        margin: 10px;
     }
     
     .characters-gallery {
@@ -928,90 +939,95 @@ body::before {
     }
     
     .instructions-list li {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     
     .section-title {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 
-    .puzzle-piece {
-        width: 55px;
-        height: 42px;
-        background-size: 220px 126px;
+    .credits-carousel {
+        height: 45px;
     }
 
-    .welcome-title {
-        font-size: 1.8rem;
+    .credits-role {
+        font-size: 0.7rem;
     }
 
-    .vintage-button {
-        padding: 12px 25px;
-        font-size: 1.1rem;
-        min-width: 150px;
+    .credits-name {
+        font-size: 0.8rem;
+    }
+
+    .credits-section {
+        padding: 0 15px;
+    }
+
+    .credits-separator {
+        height: 25px;
+        margin: 0 15px;
     }
 }
 
-/* Animaciones amigables para niños */
-@keyframes childFriendlyFade {
+/* Animaciones específicas del museo */
+@keyframes antiqueFade {
     0% { 
         opacity: 0; 
-        transform: translateY(30px) scale(0.9);
-        filter: brightness(0.8);
+        transform: translateY(20px) scale(0.95);
+        filter: sepia(50%);
     }
     100% { 
         opacity: 1; 
         transform: translateY(0) scale(1);
-        filter: brightness(1);
+        filter: sepia(15%);
     }
 }
 
-@keyframes playfulGlow {
+@keyframes vintageGlow {
     0%, 100% { 
-        box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
     }
     50% { 
-        box-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
     }
 }
 
-@keyframes playfulGlowPiece {
+@keyframes vintageGlowPiece {
     0% { 
         transform: scale(1); 
-        box-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
     }
     50% { 
-        transform: scale(1.08); 
-        box-shadow: 0 0 30px rgba(255, 193, 7, 0.9);
-        background-color: rgba(255, 193, 7, 0.3); 
+        transform: scale(1.05); 
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+        background-color: rgba(212, 175, 55, 0.2); 
     }
     100% { 
         transform: scale(1); 
-        box-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+        box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
     }
 }
 
-@keyframes playfulBounce {
+@keyframes antiqueFadeBoard {
     0%, 20%, 53%, 80%, 100% { 
         transform: translateY(0) scale(1); 
-        filter: brightness(1);
+        filter: sepia(15%);
     }
     40%, 43% { 
-        transform: translateY(-12px) scale(1.03); 
-        filter: brightness(1.1);
+        transform: translateY(-8px) scale(1.02); 
+        filter: sepia(5%);
     }
     70% { 
-        transform: translateY(-6px) scale(1.015); 
-        filter: brightness(1.05);
+        transform: translateY(-4px) scale(1.01); 
+        filter: sepia(10%);
     }
     90% { 
-        transform: translateY(-3px) scale(1.008); 
-        filter: brightness(1.02);
+        transform: translateY(-2px) scale(1.005); 
+        filter: sepia(12%);
     }
 }
 
 .character-frame:hover {
-    animation: playfulGlow 2s ease-in-out infinite;
+    animation: vintageGlow 2s ease-in-out infinite;
 }
 
 .puzzle-piece {
@@ -1021,35 +1037,21 @@ body::before {
 
 .puzzle-piece:active {
     transition: none;
-    filter: sepia(5%) contrast(1.3) brightness(1.2) saturate(1.4);
+    filter: sepia(5%) contrast(1.3) brightness(1.1);
 }
 
 .character-frame:hover .character-portrait {
-    animation: playfulGlow 2s ease-in-out infinite;
+    animation: vintageGlow 2s ease-in-out infinite;
 }
 
-/* Mejoras de accesibilidad táctil */
+/* Pausar animación del carrusel en hover */
+.credits-carousel:hover .credits-track {
+    animation-play-state: paused;
+}
+
+/* Interacción táctil para el carrusel */
 @media (hover: none) and (pointer: coarse) {
-    .vintage-button {
-        min-height: 70px;
-        padding: 25px 45px;
+    .credits-track {
+        animation-duration: 45s;
     }
-    
-    .puzzle-piece {
-        width: 75px;
-        height: 60px;
-        background-size: 300px 180px;
-    }
-    
-    .character-frame {
-        padding: 30px;
-    }
-}
-
-/* Animaciones de entrada */
-.ornamental-border,
-.selection-container,
-.puzzle-container,
-.biography-container {
-    animation: childFriendlyFade 0.8s ease-out;
 }

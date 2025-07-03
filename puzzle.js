@@ -146,13 +146,13 @@ class PuzzleGame {
         const row = Math.floor(position / cols);
         const col = position % cols;
         
-        // Dimensiones de cada pieza en el CSS (ajustadas para diseño infantil)
-        const pieceWidth = 70;
-        const pieceHeight = 55;
+        // Dimensiones de cada pieza en el CSS
+        const pieceWidth = 80;
+        const pieceHeight = 60;
         
         // Dimensiones totales de la imagen de fondo
-        const totalWidth = cols * pieceWidth; // 280px
-        const totalHeight = rows * pieceHeight; // 165px
+        const totalWidth = cols * pieceWidth; // 320px
+        const totalHeight = rows * pieceHeight; // 180px
         
         // Calcular la posición exacta del fondo para mostrar la sección correcta
         const backgroundX = -(col * pieceWidth);
@@ -244,7 +244,7 @@ class PuzzleGame {
         piece.style.position = 'fixed';
         piece.style.zIndex = '1000';
         piece.style.pointerEvents = 'none';
-        piece.style.transform = 'scale(1.2) rotate(3deg)';
+        piece.style.transform = 'scale(1.15) rotate(2deg)';
     }
     
     updatePiecePosition(x, y) {
@@ -269,7 +269,7 @@ class PuzzleGame {
     findNearestSlot(x, y) {
         const slots = document.querySelectorAll('.puzzle-slot');
         let nearestSlot = null;
-        let minDistance = 120; // Distancia mínima aumentada para mejor usabilidad táctil
+        let minDistance = 100; // Distancia mínima para considerar válido
         
         slots.forEach(slot => {
             const rect = slot.getBoundingClientRect();
@@ -342,11 +342,11 @@ class PuzzleGame {
             piecesPlacedElement.textContent = this.completedPieces;
         }
         
-        // Efecto visual de éxito con estilo amigable para niños
-        slot.style.animation = 'playfulGlowPiece 1s ease';
+        // Efecto visual de éxito con estilo vintage
+        slot.style.animation = 'vintageGlowPiece 0.8s ease';
         setTimeout(() => {
             slot.style.animation = '';
-        }, 1000);
+        }, 800);
         
         if (this.completedPieces === 12) {
             this.onPuzzleComplete();
@@ -354,28 +354,28 @@ class PuzzleGame {
     }
     
     returnPieceToContainer(piece) {
-        // Restaurar estilos originales de la pieza (ajustados para diseño infantil)
+        // Restaurar estilos originales de la pieza
         piece.style.position = 'relative';
         piece.style.left = '';
         piece.style.top = '';
-        piece.style.width = '70px';
-        piece.style.height = '55px';
+        piece.style.width = '80px';
+        piece.style.height = '60px';
         piece.style.zIndex = '';
         piece.style.pointerEvents = '';
         piece.style.transform = 'scale(1) rotate(0deg)';
-        piece.style.borderRadius = '12px';
-        piece.style.border = '4px solid #ff6f00';
+        piece.style.borderRadius = '6px';
+        piece.style.border = '3px solid #8b4513';
         
         // Restaurar el tamaño de fondo original para el contenedor
-        piece.style.backgroundSize = '280px 165px';
+        piece.style.backgroundSize = '320px 180px';
         
         // Recalcular la posición del fondo para el tamaño original
         const position = parseInt(piece.dataset.position);
         const cols = 4;
         const row = Math.floor(position / cols);
         const col = position % cols;
-        const backgroundX = -(col * 70);
-        const backgroundY = -(row * 55);
+        const backgroundX = -(col * 80);
+        const backgroundY = -(row * 60);
         piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
         
         const container = document.getElementById('pieces-container');
@@ -398,26 +398,20 @@ class PuzzleGame {
     }
     
     onPuzzleComplete() {
-        // Ocultar inmediatamente el botón "Cambiar Personaje"
-        const changeCharacterBtn = document.querySelector('.puzzle-controls .vintage-button.secondary');
-        if (changeCharacterBtn) {
-            changeCharacterBtn.style.display = 'none';
-        }
-        
         setTimeout(() => {
             const showBiographyBtn = document.getElementById('show-biography');
             if (showBiographyBtn) {
                 showBiographyBtn.classList.remove('hidden');
             }
             
-            // Efecto de celebración amigable para niños
+            // Efecto de celebración vintage
             const board = document.getElementById('puzzle-board');
             if (board) {
-                board.style.animation = 'playfulBounce 2s ease';
+                board.style.animation = 'antiqueFadeBoard 1.5s ease';
                 
                 setTimeout(() => {
                     board.style.animation = '';
-                }, 2000);
+                }, 1500);
             }
         }, 500);
     }
