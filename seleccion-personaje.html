@@ -117,31 +117,6 @@
     </div>
 
     <script>
-        // Asegurar pantalla completa al cargar esta página
-        document.addEventListener('DOMContentLoaded', () => {
-            // Intentar mantener o activar pantalla completa
-            setTimeout(() => {
-                if (!isFullscreen()) {
-                    requestFullscreen().catch(() => {
-                        console.log('No se pudo activar pantalla completa en selección');
-                    });
-                }
-            }, 100);
-            
-            // Manejar botón "Volver al Inicio"
-            const backToHomeBtn = document.getElementById('back-to-home');
-            if (backToHomeBtn) {
-                backToHomeBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    navigateWithFullscreen('index.html');
-                });
-                backToHomeBtn.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    navigateWithFullscreen('index.html');
-                });
-            }
-        });
-
         // Funciones de pantalla completa
         function isFullscreen() {
             return !!(
@@ -180,14 +155,27 @@
                 window.location.href = url;
             } else {
                 requestFullscreen().then(() => {
-                    setTimeout(() => {
-                        window.location.href = url;
-                    }, 100);
+                    window.location.href = url;
                 }).catch(() => {
                     window.location.href = url;
                 });
             }
         }
+
+        // Manejar botón "Volver al Inicio"
+        document.addEventListener('DOMContentLoaded', () => {
+            const backToHomeBtn = document.getElementById('back-to-home');
+            if (backToHomeBtn) {
+                backToHomeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateWithFullscreen('index.html');
+                });
+                backToHomeBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    navigateWithFullscreen('index.html');
+                });
+            }
+        });
     </script>
     <script src="scripts.js"></script>
 </body>

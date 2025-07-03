@@ -14,22 +14,8 @@ class PuzzleGame {
     }
     
     init() {
-        // Asegurar pantalla completa al cargar la página del rompecabezas
-        this.ensureFullscreenOnLoad();
-        
         this.bindEvents();
         this.createPuzzle();
-    }
-    
-    ensureFullscreenOnLoad() {
-        // Intentar mantener pantalla completa al cargar
-        setTimeout(() => {
-            if (!this.isFullscreen()) {
-                this.requestFullscreen().catch(() => {
-                    console.log('No se pudo mantener pantalla completa en rompecabezas');
-                });
-            }
-        }, 100);
     }
     
     bindEvents() {
@@ -541,9 +527,7 @@ class PuzzleGame {
             window.location.href = url;
         } else {
             this.requestFullscreen().then(() => {
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 100);
+                window.location.href = url;
             }).catch(() => {
                 window.location.href = url;
             });

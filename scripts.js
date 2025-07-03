@@ -13,29 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (element.requestFullscreen) {
                     element.requestFullscreen().then(() => {
-                        // Navegar después de activar pantalla completa
-                        setTimeout(() => {
-                            window.location.href = 'seleccion-personaje.html';
-                        }, 200);
+                        // Navegar inmediatamente después de activar pantalla completa
+                        window.location.href = 'seleccion-personaje.html';
                     }).catch(() => {
                         // Si falla, navegar de todas formas
                         window.location.href = 'seleccion-personaje.html';
                     });
                 } else if (element.webkitRequestFullscreen) {
                     element.webkitRequestFullscreen();
-                    setTimeout(() => {
-                        window.location.href = 'seleccion-personaje.html';
-                    }, 200);
+                    window.location.href = 'seleccion-personaje.html';
                 } else if (element.mozRequestFullScreen) {
                     element.mozRequestFullScreen();
-                    setTimeout(() => {
-                        window.location.href = 'seleccion-personaje.html';
-                    }, 200);
+                    window.location.href = 'seleccion-personaje.html';
                 } else if (element.msRequestFullscreen) {
                     element.msRequestFullscreen();
-                    setTimeout(() => {
-                        window.location.href = 'seleccion-personaje.html';
-                    }, 200);
+                    window.location.href = 'seleccion-personaje.html';
                 } else {
                     // Si no hay soporte para pantalla completa, navegar directamente
                     window.location.href = 'seleccion-personaje.html';
@@ -144,9 +136,7 @@ function ensureFullscreenAndNavigate(url) {
     } else {
         // Intentar activar pantalla completa antes de navegar
         requestFullscreen().then(() => {
-            setTimeout(() => {
-                window.location.href = url;
-            }, 100);
+            window.location.href = url;
         }).catch(() => {
             // Si falla, navegar de todas formas
             window.location.href = url;
