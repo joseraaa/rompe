@@ -146,13 +146,13 @@ class PuzzleGame {
         const row = Math.floor(position / cols);
         const col = position % cols;
         
-        // Dimensiones de cada pieza en el CSS
-        const pieceWidth = 80;
-        const pieceHeight = 60;
+        // Dimensiones de cada pieza en el CSS (ajustadas para responsive)
+        const pieceWidth = window.innerWidth <= 480 ? 60 : (window.innerWidth <= 768 ? 60 : 70);
+        const pieceHeight = window.innerWidth <= 480 ? 45 : (window.innerWidth <= 768 ? 45 : 55);
         
         // Dimensiones totales de la imagen de fondo
-        const totalWidth = cols * pieceWidth; // 320px
-        const totalHeight = rows * pieceHeight; // 180px
+        const totalWidth = cols * pieceWidth;
+        const totalHeight = rows * pieceHeight;
         
         // Calcular la posición exacta del fondo para mostrar la sección correcta
         const backgroundX = -(col * pieceWidth);
@@ -358,8 +358,13 @@ class PuzzleGame {
         piece.style.position = 'relative';
         piece.style.left = '';
         piece.style.top = '';
-        piece.style.width = '80px';
-        piece.style.height = '60px';
+        
+        // Dimensiones responsive
+        const pieceWidth = window.innerWidth <= 480 ? 60 : (window.innerWidth <= 768 ? 60 : 70);
+        const pieceHeight = window.innerWidth <= 480 ? 45 : (window.innerWidth <= 768 ? 45 : 55);
+        
+        piece.style.width = `${pieceWidth}px`;
+        piece.style.height = `${pieceHeight}px`;
         piece.style.zIndex = '';
         piece.style.pointerEvents = '';
         piece.style.transform = 'scale(1) rotate(0deg)';
@@ -367,15 +372,17 @@ class PuzzleGame {
         piece.style.border = '3px solid #8b4513';
         
         // Restaurar el tamaño de fondo original para el contenedor
-        piece.style.backgroundSize = '320px 180px';
+        const totalWidth = 4 * pieceWidth;
+        const totalHeight = 3 * pieceHeight;
+        piece.style.backgroundSize = `${totalWidth}px ${totalHeight}px`;
         
         // Recalcular la posición del fondo para el tamaño original
         const position = parseInt(piece.dataset.position);
         const cols = 4;
         const row = Math.floor(position / cols);
         const col = position % cols;
-        const backgroundX = -(col * 80);
-        const backgroundY = -(row * 60);
+        const backgroundX = -(col * pieceWidth);
+        const backgroundY = -(row * pieceHeight);
         piece.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
         
         const container = document.getElementById('pieces-container');
@@ -400,8 +407,15 @@ class PuzzleGame {
     onPuzzleComplete() {
         setTimeout(() => {
             const showBiographyBtn = document.getElementById('show-biography');
+            const changeCharacterBtn = document.querySelector('.vintage-button.secondary');
+            
             if (showBiographyBtn) {
                 showBiographyBtn.classList.remove('hidden');
+            }
+            
+            // Ocultar el botón "Cambiar Personaje" cuando se completa el rompecabezas
+            if (changeCharacterBtn) {
+                changeCharacterBtn.style.display = 'none';
             }
             
             // Efecto de celebración vintage
