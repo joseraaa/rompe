@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleStart(e) {
             e.preventDefault();
             
-            // Intentar activar pantalla completa directamente desde el gesto del usuario
+            // Activar pantalla completa INMEDIATAMENTE como primera acción
             requestFullscreen();
             
             // Navegar después de un pequeño delay
@@ -73,31 +73,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Función simplificada para solicitar pantalla completa
+// Función mejorada para solicitar pantalla completa
 function requestFullscreen() {
     const element = document.documentElement;
     
     // Verificar si ya está en pantalla completa
     if (isFullscreen()) {
-        return;
+        return Promise.resolve();
     }
     
     // Intentar activar pantalla completa con diferentes APIs
-    try {
-        if (element.requestFullscreen) {
-            element.requestFullscreen().catch(() => {
-                console.log('No se pudo activar la pantalla completa');
-            });
-        } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
-        } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-        } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen();
-        }
-    } catch (error) {
-        console.log('Error al solicitar pantalla completa:', error);
+    if (element.requestFullscreen) {
+        return element.requestFullscreen().catch((error) => {
+            console.log('No se pudo activar la pantalla completa:', error);
+        });
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+        return Promise.resolve();
+    } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+        return Promise.resolve();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+        return Promise.resolve();
     }
+    
+    return Promise.reject('Fullscreen not supported');
 }
 
 // Función para verificar si está en pantalla completa
