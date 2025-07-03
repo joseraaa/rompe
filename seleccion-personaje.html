@@ -63,10 +63,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="navigation-controls">
-                <button id="back-to-home" class="vintage-button secondary">Volver al Inicio</button>
-            </div>
         </div>
     </div>
 
@@ -116,22 +112,6 @@
         </div>
     </div>
 
-    <script>
-        // Manejar botón "Volver al Inicio" - navegación normal SIN pantalla completa
-        document.addEventListener('DOMContentLoaded', () => {
-            const backToHomeBtn = document.getElementById('back-to-home');
-            if (backToHomeBtn) {
-                backToHomeBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.location.href = 'index.html';
-                });
-                backToHomeBtn.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    window.location.href = 'index.html';
-                });
-            }
-        });
-    </script>
     <script src="scripts.js"></script>
 </body>
 </html>
