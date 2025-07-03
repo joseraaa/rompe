@@ -7,6 +7,8 @@ class PuzzleGame {
         this.isDragging = false;
         this.dragElement = null;
         this.touchOffset = { x: 0, y: 0 };
+        this.autoRedirectTimer = null;
+        this.isInBiographyMode = false;
         
         this.init();
     }
@@ -56,6 +58,52 @@ class PuzzleGame {
                 this.handleMouseEnd(e);
             }
         });
+
+        // Eventos para detectar interacción del usuario en modo biografía
+        this.bindBiographyInteractionEvents();
+    }
+
+    bindBiographyInteractionEvents() {
+        const events = ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'];
+        
+        events.forEach(eventType => {
+            document.addEventListener(eventType, () => {
+                if (this.isInBiographyMode) {
+                    this.resetAutoRedirectTimer();
+                }
+            });
+        });
+    }
+
+    startAutoRedirectTimer() {
+        this.clearAutoRedirectTimer();
+        
+        this.autoRedirectTimer = setTimeout(() => {
+            // Ocultar el botón "Cambiar Personaje" antes de redirigir
+            const changeCharacterBtn = document.querySelector('.biography-controls .vintage-button.primary');
+            if (changeCharacterBtn) {
+                changeCharacterBtn.style.opacity = '0';
+                changeCharacterBtn.style.transform = 'scale(0.8)';
+                changeCharacterBtn.style.transition = 'all 0.5s ease';
+            }
+            
+            // Redirigir después de una breve pausa para el efecto visual
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }, 8000);
+    }
+
+    resetAutoRedirectTimer() {
+        this.clearAutoRedirectTimer();
+        this.startAutoRedirectTimer();
+    }
+
+    clearAutoRedirectTimer() {
+        if (this.autoRedirectTimer) {
+            clearTimeout(this.autoRedirectTimer);
+            this.autoRedirectTimer = null;
+        }
     }
     
     createPuzzle() {
@@ -387,6 +435,10 @@ class PuzzleGame {
             puzzleContainer.style.display = 'none';
             biographyScreen.classList.remove('hidden');
             biographyScreen.style.display = 'block';
+            
+            // Activar modo biografía y iniciar temporizador
+            this.isInBiographyMode = true;
+            this.startAutoRedirectTimer();
         }
     }
 }
