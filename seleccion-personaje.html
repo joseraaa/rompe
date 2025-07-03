@@ -117,62 +117,17 @@
     </div>
 
     <script>
-        // Funciones de pantalla completa
-        function isFullscreen() {
-            return !!(
-                document.fullscreenElement ||
-                document.webkitFullscreenElement ||
-                document.mozFullScreenElement ||
-                document.msFullscreenElement
-            );
-        }
-
-        function requestFullscreen() {
-            const element = document.documentElement;
-            
-            if (isFullscreen()) {
-                return Promise.resolve();
-            }
-            
-            if (element.requestFullscreen) {
-                return element.requestFullscreen();
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-                return Promise.resolve();
-            } else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-                return Promise.resolve();
-            } else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-                return Promise.resolve();
-            }
-            
-            return Promise.reject('Fullscreen not supported');
-        }
-
-        function navigateWithFullscreen(url) {
-            if (isFullscreen()) {
-                window.location.href = url;
-            } else {
-                requestFullscreen().then(() => {
-                    window.location.href = url;
-                }).catch(() => {
-                    window.location.href = url;
-                });
-            }
-        }
-
-        // Manejar botón "Volver al Inicio"
+        // Manejar botón "Volver al Inicio" - navegación normal SIN pantalla completa
         document.addEventListener('DOMContentLoaded', () => {
             const backToHomeBtn = document.getElementById('back-to-home');
             if (backToHomeBtn) {
                 backToHomeBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    navigateWithFullscreen('index.html');
+                    window.location.href = 'index.html';
                 });
                 backToHomeBtn.addEventListener('touchend', (e) => {
                     e.preventDefault();
-                    navigateWithFullscreen('index.html');
+                    window.location.href = 'index.html';
                 });
             }
         });

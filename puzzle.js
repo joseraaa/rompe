@@ -14,8 +14,20 @@ class PuzzleGame {
     }
     
     init() {
+        // Salir de pantalla completa al cargar páginas de rompecabezas
+        this.exitFullscreenOnLoad();
+        
         this.bindEvents();
         this.createPuzzle();
+    }
+    
+    // Salir de pantalla completa cuando se carga una página de rompecabezas
+    exitFullscreenOnLoad() {
+        if (this.isFullscreen()) {
+            setTimeout(() => {
+                this.exitFullscreen();
+            }, 100);
+        }
     }
     
     bindEvents() {
@@ -62,7 +74,7 @@ class PuzzleGame {
         // Eventos para detectar interacción del usuario en modo biografía
         this.bindBiographyInteractionEvents();
 
-        // Manejar botones de navegación con pantalla completa
+        // Manejar botones de navegación SIN pantalla completa
         this.bindNavigationEvents();
     }
 
@@ -72,11 +84,11 @@ class PuzzleGame {
         if (changeCharacterBtn) {
             changeCharacterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.navigateWithFullscreen('seleccion-personaje.html');
+                this.navigateNormal('seleccion-personaje.html');
             });
             changeCharacterBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                this.navigateWithFullscreen('seleccion-personaje.html');
+                this.navigateNormal('seleccion-personaje.html');
             });
         }
 
@@ -85,11 +97,11 @@ class PuzzleGame {
         homeButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.navigateWithFullscreen('index.html');
+                this.navigateNormal('index.html');
             });
             btn.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                this.navigateWithFullscreen('index.html');
+                this.navigateNormal('index.html');
             });
         });
 
@@ -98,11 +110,11 @@ class PuzzleGame {
         selectOtherButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.navigateWithFullscreen('seleccion-personaje.html');
+                this.navigateNormal('seleccion-personaje.html');
             });
             btn.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                this.navigateWithFullscreen('seleccion-personaje.html');
+                this.navigateNormal('seleccion-personaje.html');
             });
         });
     }
@@ -123,7 +135,7 @@ class PuzzleGame {
         this.clearAutoRedirectTimer();
         
         this.autoRedirectTimer = setTimeout(() => {
-            this.navigateWithFullscreen('index.html');
+            this.navigateNormal('index.html');
         }, 8000);
     }
 
@@ -499,39 +511,21 @@ class PuzzleGame {
         );
     }
 
-    requestFullscreen() {
-        const element = document.documentElement;
-        
-        if (this.isFullscreen()) {
-            return Promise.resolve();
+    exitFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
         }
-        
-        if (element.requestFullscreen) {
-            return element.requestFullscreen();
-        } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
-            return Promise.resolve();
-        } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-            return Promise.resolve();
-        } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen();
-            return Promise.resolve();
-        }
-        
-        return Promise.reject('Fullscreen not supported');
     }
 
-    navigateWithFullscreen(url) {
-        if (this.isFullscreen()) {
-            window.location.href = url;
-        } else {
-            this.requestFullscreen().then(() => {
-                window.location.href = url;
-            }).catch(() => {
-                window.location.href = url;
-            });
-        }
+    // Navegación normal SIN pantalla completa
+    navigateNormal(url) {
+        window.location.href = url;
     }
 }
 
