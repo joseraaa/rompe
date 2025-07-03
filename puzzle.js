@@ -79,18 +79,7 @@ class PuzzleGame {
         this.clearAutoRedirectTimer();
         
         this.autoRedirectTimer = setTimeout(() => {
-            // Ocultar el botón "Cambiar Personaje" antes de redirigir
-            const changeCharacterBtn = document.querySelector('.biography-controls .vintage-button.primary');
-            if (changeCharacterBtn) {
-                changeCharacterBtn.style.opacity = '0';
-                changeCharacterBtn.style.transform = 'scale(0.8)';
-                changeCharacterBtn.style.transition = 'all 0.5s ease';
-            }
-            
-            // Redirigir después de una breve pausa para el efecto visual
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 500);
+            window.location.href = 'index.html';
         }, 8000);
     }
 
@@ -409,6 +398,12 @@ class PuzzleGame {
     }
     
     onPuzzleComplete() {
+        // Ocultar inmediatamente el botón "Cambiar Personaje"
+        const changeCharacterBtn = document.querySelector('.puzzle-controls .vintage-button.secondary');
+        if (changeCharacterBtn) {
+            changeCharacterBtn.style.display = 'none';
+        }
+        
         setTimeout(() => {
             const showBiographyBtn = document.getElementById('show-biography');
             if (showBiographyBtn) {
