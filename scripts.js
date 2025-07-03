@@ -7,16 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleStart(e) {
             e.preventDefault();
             
-            // Activar pantalla completa antes de navegar
-            requestFullscreen().then(() => {
-                // Pequeño delay para asegurar que la pantalla completa se active
-                setTimeout(() => {
-                    window.location.href = 'seleccion-personaje.html';
-                }, 100);
-            }).catch(() => {
-                // Si falla la pantalla completa, navegar de todas formas
+            // Intentar activar pantalla completa directamente desde el gesto del usuario
+            requestFullscreen();
+            
+            // Navegar después de un pequeño delay
+            setTimeout(() => {
                 window.location.href = 'seleccion-personaje.html';
-            });
+            }, 100);
         }
         
         // Eventos para mouse y touch
@@ -47,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleCharacterSelect(e) {
             e.preventDefault();
             if (character) {
-                // Mantener pantalla completa al navegar
+                // Intentar mantener pantalla completa al navegar
                 ensureFullscreen();
                 window.location.href = `${character}.html`;
             }
@@ -76,72 +73,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Función para solicitar pantalla completa con compatibilidad multiplataforma
+// Función simplificada para solicitar pantalla completa
 function requestFullscreen() {
-    return new Promise((resolve, reject) => {
-        const element = document.documentElement;
-        
-        // Verificar si ya está en pantalla completa
-        if (isFullscreen()) {
-            resolve();
-            return;
+    const element = document.documentElement;
+    
+    // Verificar si ya está en pantalla completa
+    if (isFullscreen()) {
+        return;
+    }
+    
+    // Intentar activar pantalla completa con diferentes APIs
+    try {
+        if (element.requestFullscreen) {
+            element.requestFullscreen().catch(() => {
+                console.log('No se pudo activar la pantalla completa');
+            });
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
         }
-        
-        // Función para manejar el éxito
-        const onFullscreenChange = () => {
-            if (isFullscreen()) {
-                document.removeEventListener('fullscreenchange', onFullscreenChange);
-                document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
-                document.removeEventListener('mozfullscreenchange', onFullscreenChange);
-                document.removeEventListener('MSFullscreenChange', onFullscreenChange);
-                resolve();
-            }
-        };
-        
-        // Función para manejar errores
-        const onFullscreenError = () => {
-            document.removeEventListener('fullscreenerror', onFullscreenError);
-            document.removeEventListener('webkitfullscreenerror', onFullscreenError);
-            document.removeEventListener('mozfullscreenerror', onFullscreenError);
-            document.removeEventListener('MSFullscreenError', onFullscreenError);
-            reject(new Error('Fullscreen request failed'));
-        };
-        
-        // Agregar listeners para eventos de cambio y error
-        document.addEventListener('fullscreenchange', onFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-        document.addEventListener('mozfullscreenchange', onFullscreenChange);
-        document.addEventListener('MSFullscreenChange', onFullscreenChange);
-        
-        document.addEventListener('fullscreenerror', onFullscreenError);
-        document.addEventListener('webkitfullscreenerror', onFullscreenError);
-        document.addEventListener('mozfullscreenerror', onFullscreenError);
-        document.addEventListener('MSFullscreenError', onFullscreenError);
-        
-        // Intentar activar pantalla completa con diferentes APIs
-        try {
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            } else {
-                reject(new Error('Fullscreen API not supported'));
-            }
-        } catch (error) {
-            reject(error);
-        }
-        
-        // Timeout de seguridad
-        setTimeout(() => {
-            if (!isFullscreen()) {
-                reject(new Error('Fullscreen request timeout'));
-            }
-        }, 3000);
-    });
+    } catch (error) {
+        console.log('Error al solicitar pantalla completa:', error);
+    }
 }
 
 // Función para verificar si está en pantalla completa
@@ -154,18 +110,19 @@ function isFullscreen() {
     );
 }
 
-// Función para asegurar que se mantenga la pantalla completa
+// Función para asegurar que se mantenga la pantalla completa (solo si ya está activa)
 function ensureFullscreen() {
-    if (!isFullscreen()) {
-        requestFullscreen().catch(() => {
-            // Si falla, continuar sin pantalla completa
-            console.log('No se pudo mantener la pantalla completa');
-        });
+    // Solo intentar mantener pantalla completa si ya está activa
+    // No intentar activarla si no está activa para evitar errores de permisos
+    if (isFullscreen()) {
+        // Ya está en pantalla completa, no hacer nada
+        return;
     }
 }
 
-// Función para manejar la navegación manteniendo pantalla completa
+// Función para manejar la navegación
 function navigateFullscreen(url) {
+    // Solo intentar mantener pantalla completa si ya está activa
     ensureFullscreen();
     setTimeout(() => {
         window.location.href = url;
@@ -216,18 +173,16 @@ window.navigateWithFullscreen = function(url) {
     navigateFullscreen(url);
 };
 
-// Detectar orientación en dispositivos móviles y mantener pantalla completa
+// Detectar orientación en dispositivos móviles
 window.addEventListener('orientationchange', function() {
-    setTimeout(() => {
-        ensureFullscreen();
-    }, 500);
+    // No intentar forzar pantalla completa en cambio de orientación
+    console.log('Orientación cambiada');
 });
 
 // Mantener pantalla completa al cambiar de pestaña (si es posible)
 document.addEventListener('visibilitychange', function() {
     if (!document.hidden) {
-        setTimeout(() => {
-            ensureFullscreen();
-        }, 100);
+        // No intentar forzar pantalla completa al volver a la pestaña
+        console.log('Pestaña visible nuevamente');
     }
 });

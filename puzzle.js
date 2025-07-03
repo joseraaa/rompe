@@ -14,9 +14,7 @@ class PuzzleGame {
     }
     
     init() {
-        // Asegurar pantalla completa al cargar la página del rompecabezas
-        this.ensureFullscreen();
-        
+        // No intentar pantalla completa al cargar la página del rompecabezas
         this.bindEvents();
         this.createPuzzle();
     }
@@ -497,15 +495,7 @@ class PuzzleGame {
         }
     }
 
-    // Funciones de pantalla completa
-    ensureFullscreen() {
-        if (!this.isFullscreen()) {
-            this.requestFullscreen().catch(() => {
-                console.log('No se pudo activar la pantalla completa');
-            });
-        }
-    }
-
+    // Funciones de pantalla completa simplificadas
     isFullscreen() {
         return !!(
             document.fullscreenElement ||
@@ -516,51 +506,34 @@ class PuzzleGame {
     }
 
     requestFullscreen() {
-        return new Promise((resolve, reject) => {
-            const element = document.documentElement;
-            
-            if (this.isFullscreen()) {
-                resolve();
-                return;
+        const element = document.documentElement;
+        
+        if (this.isFullscreen()) {
+            return;
+        }
+        
+        try {
+            if (element.requestFullscreen) {
+                element.requestFullscreen().catch(() => {
+                    console.log('No se pudo activar la pantalla completa');
+                });
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
             }
-            
-            const onFullscreenChange = () => {
-                if (this.isFullscreen()) {
-                    document.removeEventListener('fullscreenchange', onFullscreenChange);
-                    document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
-                    document.removeEventListener('mozfullscreenchange', onFullscreenChange);
-                    document.removeEventListener('MSFullscreenChange', onFullscreenChange);
-                    resolve();
-                }
-            };
-            
-            document.addEventListener('fullscreenchange', onFullscreenChange);
-            document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-            document.addEventListener('mozfullscreenchange', onFullscreenChange);
-            document.addEventListener('MSFullscreenChange', onFullscreenChange);
-            
-            try {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if (element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                } else {
-                    reject(new Error('Fullscreen API not supported'));
-                }
-            } catch (error) {
-                reject(error);
-            }
-            
-            setTimeout(() => {
-                if (!this.isFullscreen()) {
-                    reject(new Error('Fullscreen request timeout'));
-                }
-            }, 3000);
-        });
+        } catch (error) {
+            console.log('Error al solicitar pantalla completa:', error);
+        }
+    }
+
+    ensureFullscreen() {
+        // Solo mantener si ya está activa, no forzar
+        if (this.isFullscreen()) {
+            return;
+        }
     }
 
     navigateWithFullscreen(url) {
