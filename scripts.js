@@ -12,13 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 if (element.requestFullscreen) {
-                    element.requestFullscreen().then(() => {
-                        // Navegar después de activar pantalla completa
-                        window.location.href = 'seleccion-personaje.html';
-                    }).catch(() => {
-                        // Si falla, navegar de todas formas
-                        window.location.href = 'seleccion-personaje.html';
-                    });
+                    element.requestFullscreen();
+                    window.location.href = 'seleccion-personaje.html';
                 } else if (element.webkitRequestFullscreen) {
                     element.webkitRequestFullscreen();
                     window.location.href = 'seleccion-personaje.html';
