@@ -12,17 +12,32 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                    window.location.href = 'seleccion-personaje.html';
+                    element.requestFullscreen()
+                        .then(() => {
+                            window.location.href = 'seleccion-personaje.html';
+                        })
+                        .catch((error) => {
+                            console.log('Error al activar pantalla completa:', error);
+                            window.location.href = 'seleccion-personaje.html';
+                        });
                 } else if (element.webkitRequestFullscreen) {
                     element.webkitRequestFullscreen();
-                    window.location.href = 'seleccion-personaje.html';
+                    // Para webkit, usar un pequeño delay ya que no retorna promesa
+                    setTimeout(() => {
+                        window.location.href = 'seleccion-personaje.html';
+                    }, 100);
                 } else if (element.mozRequestFullScreen) {
                     element.mozRequestFullScreen();
-                    window.location.href = 'seleccion-personaje.html';
+                    // Para mozilla, usar un pequeño delay ya que no retorna promesa
+                    setTimeout(() => {
+                        window.location.href = 'seleccion-personaje.html';
+                    }, 100);
                 } else if (element.msRequestFullscreen) {
                     element.msRequestFullscreen();
-                    window.location.href = 'seleccion-personaje.html';
+                    // Para IE/Edge, usar un pequeño delay ya que no retorna promesa
+                    setTimeout(() => {
+                        window.location.href = 'seleccion-personaje.html';
+                    }, 100);
                 } else {
                     // Si no hay soporte para pantalla completa, navegar directamente
                     window.location.href = 'seleccion-personaje.html';
