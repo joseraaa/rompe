@@ -117,8 +117,17 @@
     </div>
 
     <script>
-        // No intentar pantalla completa al cargar la página
+        // Asegurar pantalla completa al cargar esta página
         document.addEventListener('DOMContentLoaded', () => {
+            // Intentar mantener o activar pantalla completa
+            setTimeout(() => {
+                if (!isFullscreen()) {
+                    requestFullscreen().catch(() => {
+                        console.log('No se pudo activar pantalla completa en selección');
+                    });
+                }
+            }, 100);
+            
             // Manejar botón "Volver al Inicio"
             const backToHomeBtn = document.getElementById('back-to-home');
             if (backToHomeBtn) {
@@ -133,7 +142,7 @@
             }
         });
 
-        // Funciones de pantalla completa simplificadas
+        // Funciones de pantalla completa
         function isFullscreen() {
             return !!(
                 document.fullscreenElement ||
@@ -147,38 +156,37 @@
             const element = document.documentElement;
             
             if (isFullscreen()) {
-                return;
+                return Promise.resolve();
             }
             
-            try {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen().catch(() => {
-                        console.log('No se pudo activar la pantalla completa');
-                    });
-                } else if (element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if (element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-            } catch (error) {
-                console.log('Error al solicitar pantalla completa:', error);
+            if (element.requestFullscreen) {
+                return element.requestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+                return Promise.resolve();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+                return Promise.resolve();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+                return Promise.resolve();
             }
-        }
-
-        function ensureFullscreen() {
-            // Solo mantener si ya está activa, no forzar
-            if (isFullscreen()) {
-                return;
-            }
+            
+            return Promise.reject('Fullscreen not supported');
         }
 
         function navigateWithFullscreen(url) {
-            ensureFullscreen();
-            setTimeout(() => {
+            if (isFullscreen()) {
                 window.location.href = url;
-            }, 100);
+            } else {
+                requestFullscreen().then(() => {
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 100);
+                }).catch(() => {
+                    window.location.href = url;
+                });
+            }
         }
     </script>
     <script src="scripts.js"></script>

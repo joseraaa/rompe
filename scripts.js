@@ -7,13 +7,43 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleStart(e) {
             e.preventDefault();
             
-            // Activar pantalla completa INMEDIATAMENTE como primera acción
-            requestFullscreen();
+            // Activar pantalla completa INMEDIATAMENTE
+            const element = document.documentElement;
             
-            // Navegar después de un pequeño delay
-            setTimeout(() => {
+            try {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen().then(() => {
+                        // Navegar después de activar pantalla completa
+                        setTimeout(() => {
+                            window.location.href = 'seleccion-personaje.html';
+                        }, 200);
+                    }).catch(() => {
+                        // Si falla, navegar de todas formas
+                        window.location.href = 'seleccion-personaje.html';
+                    });
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                    setTimeout(() => {
+                        window.location.href = 'seleccion-personaje.html';
+                    }, 200);
+                } else if (element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                    setTimeout(() => {
+                        window.location.href = 'seleccion-personaje.html';
+                    }, 200);
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                    setTimeout(() => {
+                        window.location.href = 'seleccion-personaje.html';
+                    }, 200);
+                } else {
+                    // Si no hay soporte para pantalla completa, navegar directamente
+                    window.location.href = 'seleccion-personaje.html';
+                }
+            } catch (error) {
+                console.log('Error al activar pantalla completa:', error);
                 window.location.href = 'seleccion-personaje.html';
-            }, 100);
+            }
         }
         
         // Eventos para mouse y touch
@@ -44,9 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleCharacterSelect(e) {
             e.preventDefault();
             if (character) {
-                // Intentar mantener pantalla completa al navegar
-                ensureFullscreen();
-                window.location.href = `${character}.html`;
+                // Asegurar pantalla completa antes de navegar
+                ensureFullscreenAndNavigate(`${character}.html`);
             }
         }
         
@@ -73,20 +102,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Función mejorada para solicitar pantalla completa
+// Función para verificar si está en pantalla completa
+function isFullscreen() {
+    return !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+    );
+}
+
+// Función para solicitar pantalla completa
 function requestFullscreen() {
     const element = document.documentElement;
     
-    // Verificar si ya está en pantalla completa
     if (isFullscreen()) {
         return Promise.resolve();
     }
     
-    // Intentar activar pantalla completa con diferentes APIs
     if (element.requestFullscreen) {
-        return element.requestFullscreen().catch((error) => {
-            console.log('No se pudo activar la pantalla completa:', error);
-        });
+        return element.requestFullscreen();
     } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
         return Promise.resolve();
@@ -101,33 +136,27 @@ function requestFullscreen() {
     return Promise.reject('Fullscreen not supported');
 }
 
-// Función para verificar si está en pantalla completa
-function isFullscreen() {
-    return !!(
-        document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement ||
-        document.msFullscreenElement
-    );
-}
-
-// Función para asegurar que se mantenga la pantalla completa (solo si ya está activa)
-function ensureFullscreen() {
-    // Solo intentar mantener pantalla completa si ya está activa
-    // No intentar activarla si no está activa para evitar errores de permisos
+// Función para asegurar pantalla completa y navegar
+function ensureFullscreenAndNavigate(url) {
     if (isFullscreen()) {
-        // Ya está en pantalla completa, no hacer nada
-        return;
+        // Ya está en pantalla completa, navegar directamente
+        window.location.href = url;
+    } else {
+        // Intentar activar pantalla completa antes de navegar
+        requestFullscreen().then(() => {
+            setTimeout(() => {
+                window.location.href = url;
+            }, 100);
+        }).catch(() => {
+            // Si falla, navegar de todas formas
+            window.location.href = url;
+        });
     }
 }
 
-// Función para manejar la navegación
-function navigateFullscreen(url) {
-    // Solo intentar mantener pantalla completa si ya está activa
-    ensureFullscreen();
-    setTimeout(() => {
-        window.location.href = url;
-    }, 100);
+// Función para mantener pantalla completa en navegación
+function navigateWithFullscreen(url) {
+    ensureFullscreenAndNavigate(url);
 }
 
 // Detectar cuando se sale de pantalla completa manualmente
@@ -138,10 +167,22 @@ document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
 function handleFullscreenChange() {
     if (!isFullscreen()) {
-        // El usuario salió de pantalla completa manualmente
         console.log('Pantalla completa desactivada por el usuario');
+    } else {
+        console.log('Pantalla completa activada');
     }
 }
+
+// Intentar reactivar pantalla completa en ciertas situaciones
+window.addEventListener('focus', () => {
+    // Cuando la ventana recupera el foco, intentar mantener pantalla completa
+    setTimeout(() => {
+        if (!isFullscreen() && document.hasFocus()) {
+            // Solo intentar si la página tiene foco y no está en pantalla completa
+            // No forzar para evitar interrumpir al usuario
+        }
+    }, 100);
+});
 
 // Prevenir zoom en dispositivos móviles
 document.addEventListener('touchstart', function (event) {
@@ -171,19 +212,15 @@ document.addEventListener('selectstart', function(e) {
 
 // Función global para botones que necesiten mantener pantalla completa
 window.navigateWithFullscreen = function(url) {
-    navigateFullscreen(url);
+    ensureFullscreenAndNavigate(url);
 };
 
 // Detectar orientación en dispositivos móviles
 window.addEventListener('orientationchange', function() {
-    // No intentar forzar pantalla completa en cambio de orientación
-    console.log('Orientación cambiada');
-});
-
-// Mantener pantalla completa al cambiar de pestaña (si es posible)
-document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) {
-        // No intentar forzar pantalla completa al volver a la pestaña
-        console.log('Pestaña visible nuevamente');
-    }
+    setTimeout(() => {
+        if (isFullscreen()) {
+            // Mantener pantalla completa después del cambio de orientación
+            console.log('Manteniendo pantalla completa después de cambio de orientación');
+        }
+    }, 500);
 });

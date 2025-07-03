@@ -14,9 +14,22 @@ class PuzzleGame {
     }
     
     init() {
-        // No intentar pantalla completa al cargar la página del rompecabezas
+        // Asegurar pantalla completa al cargar la página del rompecabezas
+        this.ensureFullscreenOnLoad();
+        
         this.bindEvents();
         this.createPuzzle();
+    }
+    
+    ensureFullscreenOnLoad() {
+        // Intentar mantener pantalla completa al cargar
+        setTimeout(() => {
+            if (!this.isFullscreen()) {
+                this.requestFullscreen().catch(() => {
+                    console.log('No se pudo mantener pantalla completa en rompecabezas');
+                });
+            }
+        }, 100);
     }
     
     bindEvents() {
@@ -69,9 +82,8 @@ class PuzzleGame {
 
     bindNavigationEvents() {
         // Botón "Cambiar Personaje"
-        const changeCharacterBtn = document.querySelector('button[onclick*="seleccion-personaje.html"]');
+        const changeCharacterBtn = document.getElementById('change-character');
         if (changeCharacterBtn) {
-            changeCharacterBtn.removeAttribute('onclick');
             changeCharacterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.navigateWithFullscreen('seleccion-personaje.html');
@@ -83,9 +95,8 @@ class PuzzleGame {
         }
 
         // Botones "Volver al Inicio"
-        const homeButtons = document.querySelectorAll('button[onclick*="index.html"]');
+        const homeButtons = document.querySelectorAll('#back-to-home');
         homeButtons.forEach(btn => {
-            btn.removeAttribute('onclick');
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.navigateWithFullscreen('index.html');
@@ -97,19 +108,16 @@ class PuzzleGame {
         });
 
         // Botones "Seleccionar Otro Personaje"
-        const selectOtherButtons = document.querySelectorAll('button[onclick*="seleccion-personaje.html"]');
+        const selectOtherButtons = document.querySelectorAll('#select-other-character');
         selectOtherButtons.forEach(btn => {
-            if (btn !== changeCharacterBtn) {
-                btn.removeAttribute('onclick');
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.navigateWithFullscreen('seleccion-personaje.html');
-                });
-                btn.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    this.navigateWithFullscreen('seleccion-personaje.html');
-                });
-            }
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.navigateWithFullscreen('seleccion-personaje.html');
+            });
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.navigateWithFullscreen('seleccion-personaje.html');
+            });
         });
     }
 
@@ -457,7 +465,7 @@ class PuzzleGame {
     onPuzzleComplete() {
         setTimeout(() => {
             const showBiographyBtn = document.getElementById('show-biography');
-            const changeCharacterBtn = document.querySelector('.vintage-button.secondary');
+            const changeCharacterBtn = document.getElementById('change-character');
             
             if (showBiographyBtn) {
                 showBiographyBtn.classList.remove('hidden');
@@ -495,7 +503,7 @@ class PuzzleGame {
         }
     }
 
-    // Funciones de pantalla completa simplificadas
+    // Funciones de pantalla completa
     isFullscreen() {
         return !!(
             document.fullscreenElement ||
@@ -509,38 +517,37 @@ class PuzzleGame {
         const element = document.documentElement;
         
         if (this.isFullscreen()) {
-            return;
+            return Promise.resolve();
         }
         
-        try {
-            if (element.requestFullscreen) {
-                element.requestFullscreen().catch(() => {
-                    console.log('No se pudo activar la pantalla completa');
-                });
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-        } catch (error) {
-            console.log('Error al solicitar pantalla completa:', error);
+        if (element.requestFullscreen) {
+            return element.requestFullscreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+            return Promise.resolve();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+            return Promise.resolve();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+            return Promise.resolve();
         }
-    }
-
-    ensureFullscreen() {
-        // Solo mantener si ya está activa, no forzar
-        if (this.isFullscreen()) {
-            return;
-        }
+        
+        return Promise.reject('Fullscreen not supported');
     }
 
     navigateWithFullscreen(url) {
-        this.ensureFullscreen();
-        setTimeout(() => {
+        if (this.isFullscreen()) {
             window.location.href = url;
-        }, 100);
+        } else {
+            this.requestFullscreen().then(() => {
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 100);
+            }).catch(() => {
+                window.location.href = url;
+            });
+        }
     }
 }
 
