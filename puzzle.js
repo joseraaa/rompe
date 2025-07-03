@@ -14,6 +14,9 @@ class PuzzleGame {
     }
     
     init() {
+        // Asegurar pantalla completa al cargar la página del rompecabezas
+        this.ensureFullscreen();
+        
         this.bindEvents();
         this.createPuzzle();
     }
@@ -61,6 +64,55 @@ class PuzzleGame {
 
         // Eventos para detectar interacción del usuario en modo biografía
         this.bindBiographyInteractionEvents();
+
+        // Manejar botones de navegación con pantalla completa
+        this.bindNavigationEvents();
+    }
+
+    bindNavigationEvents() {
+        // Botón "Cambiar Personaje"
+        const changeCharacterBtn = document.querySelector('button[onclick*="seleccion-personaje.html"]');
+        if (changeCharacterBtn) {
+            changeCharacterBtn.removeAttribute('onclick');
+            changeCharacterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.navigateWithFullscreen('seleccion-personaje.html');
+            });
+            changeCharacterBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.navigateWithFullscreen('seleccion-personaje.html');
+            });
+        }
+
+        // Botones "Volver al Inicio"
+        const homeButtons = document.querySelectorAll('button[onclick*="index.html"]');
+        homeButtons.forEach(btn => {
+            btn.removeAttribute('onclick');
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.navigateWithFullscreen('index.html');
+            });
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.navigateWithFullscreen('index.html');
+            });
+        });
+
+        // Botones "Seleccionar Otro Personaje"
+        const selectOtherButtons = document.querySelectorAll('button[onclick*="seleccion-personaje.html"]');
+        selectOtherButtons.forEach(btn => {
+            if (btn !== changeCharacterBtn) {
+                btn.removeAttribute('onclick');
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.navigateWithFullscreen('seleccion-personaje.html');
+                });
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    this.navigateWithFullscreen('seleccion-personaje.html');
+                });
+            }
+        });
     }
 
     bindBiographyInteractionEvents() {
@@ -79,7 +131,7 @@ class PuzzleGame {
         this.clearAutoRedirectTimer();
         
         this.autoRedirectTimer = setTimeout(() => {
-            window.location.href = 'index.html';
+            this.navigateWithFullscreen('index.html');
         }, 8000);
     }
 
@@ -443,6 +495,79 @@ class PuzzleGame {
             this.isInBiographyMode = true;
             this.startAutoRedirectTimer();
         }
+    }
+
+    // Funciones de pantalla completa
+    ensureFullscreen() {
+        if (!this.isFullscreen()) {
+            this.requestFullscreen().catch(() => {
+                console.log('No se pudo activar la pantalla completa');
+            });
+        }
+    }
+
+    isFullscreen() {
+        return !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+        );
+    }
+
+    requestFullscreen() {
+        return new Promise((resolve, reject) => {
+            const element = document.documentElement;
+            
+            if (this.isFullscreen()) {
+                resolve();
+                return;
+            }
+            
+            const onFullscreenChange = () => {
+                if (this.isFullscreen()) {
+                    document.removeEventListener('fullscreenchange', onFullscreenChange);
+                    document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+                    document.removeEventListener('mozfullscreenchange', onFullscreenChange);
+                    document.removeEventListener('MSFullscreenChange', onFullscreenChange);
+                    resolve();
+                }
+            };
+            
+            document.addEventListener('fullscreenchange', onFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+            document.addEventListener('mozfullscreenchange', onFullscreenChange);
+            document.addEventListener('MSFullscreenChange', onFullscreenChange);
+            
+            try {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                } else {
+                    reject(new Error('Fullscreen API not supported'));
+                }
+            } catch (error) {
+                reject(error);
+            }
+            
+            setTimeout(() => {
+                if (!this.isFullscreen()) {
+                    reject(new Error('Fullscreen request timeout'));
+                }
+            }, 3000);
+        });
+    }
+
+    navigateWithFullscreen(url) {
+        this.ensureFullscreen();
+        setTimeout(() => {
+            window.location.href = url;
+        }, 100);
     }
 }
 

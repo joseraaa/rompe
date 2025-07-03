@@ -63,6 +63,10 @@
                     </div>
                 </div>
             </div>
+
+            <div class="navigation-controls">
+                <button id="back-to-home" class="vintage-button secondary">Volver al Inicio</button>
+            </div>
         </div>
     </div>
 
@@ -112,6 +116,98 @@
         </div>
     </div>
 
+    <script>
+        // Asegurar pantalla completa al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            ensureFullscreen();
+            
+            // Manejar botón "Volver al Inicio"
+            const backToHomeBtn = document.getElementById('back-to-home');
+            if (backToHomeBtn) {
+                backToHomeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateWithFullscreen('index.html');
+                });
+                backToHomeBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    navigateWithFullscreen('index.html');
+                });
+            }
+        });
+
+        // Funciones de pantalla completa
+        function isFullscreen() {
+            return !!(
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            );
+        }
+
+        function requestFullscreen() {
+            return new Promise((resolve, reject) => {
+                const element = document.documentElement;
+                
+                if (isFullscreen()) {
+                    resolve();
+                    return;
+                }
+                
+                const onFullscreenChange = () => {
+                    if (isFullscreen()) {
+                        document.removeEventListener('fullscreenchange', onFullscreenChange);
+                        document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+                        document.removeEventListener('mozfullscreenchange', onFullscreenChange);
+                        document.removeEventListener('MSFullscreenChange', onFullscreenChange);
+                        resolve();
+                    }
+                };
+                
+                document.addEventListener('fullscreenchange', onFullscreenChange);
+                document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+                document.addEventListener('mozfullscreenchange', onFullscreenChange);
+                document.addEventListener('MSFullscreenChange', onFullscreenChange);
+                
+                try {
+                    if (element.requestFullscreen) {
+                        element.requestFullscreen();
+                    } else if (element.webkitRequestFullscreen) {
+                        element.webkitRequestFullscreen();
+                    } else if (element.mozRequestFullScreen) {
+                        element.mozRequestFullScreen();
+                    } else if (element.msRequestFullscreen) {
+                        element.msRequestFullscreen();
+                    } else {
+                        reject(new Error('Fullscreen API not supported'));
+                    }
+                } catch (error) {
+                    reject(error);
+                }
+                
+                setTimeout(() => {
+                    if (!isFullscreen()) {
+                        reject(new Error('Fullscreen request timeout'));
+                    }
+                }, 3000);
+            });
+        }
+
+        function ensureFullscreen() {
+            if (!isFullscreen()) {
+                requestFullscreen().catch(() => {
+                    console.log('No se pudo activar la pantalla completa');
+                });
+            }
+        }
+
+        function navigateWithFullscreen(url) {
+            ensureFullscreen();
+            setTimeout(() => {
+                window.location.href = url;
+            }, 100);
+        }
+    </script>
     <script src="scripts.js"></script>
 </body>
 </html>
